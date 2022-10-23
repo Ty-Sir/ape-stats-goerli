@@ -5,16 +5,16 @@
 ### npm:
 
 ```
-npm install ape-stats-goerli
+npm install ape-stats-goerli ethers
 ```
 
 ### yarn:
 
 ```
-yarn add ape-stats-goerli
+yarn add ape-stats-goerli ethers
 ```
 
-## Useage
+## Usage
 
 ```
 import { BAYCStatBar } from "ape-stats-goerli"
@@ -27,14 +27,17 @@ export default function Page() {
 
 ```
 
+## Example
+
+[https://ape-stats-example-site.vercel.app/](https://ape-stats-example-site.vercel.app/)
+
 ## Theming
 
 A `theme` object can be added as a prop in the BAYCStatBar component for custom styling.
 
 Treat this object as you would inline css styling.
 
-The only difference is when styling the color of the staked amount and Token Id.
-To change the color use `statColor: "newColor"`
+The only difference is when styling the color of the staked amount and Token Id `statColor: "newColor"` is used.
 
 ```
 import { BAYCStatBar } from "ape-stats-goerli"
@@ -54,3 +57,8 @@ export default function Page() {
   )
 }
 ```
+
+## TODO
+
+[ ] Types \
+[ ] light/dark mode flag
