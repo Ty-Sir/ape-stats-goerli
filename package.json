@@ -10,6 +10,9 @@
     "build-storybook": "build-storybook",
     "build-lib": "rollup -c"
   },
+  "publishConfig": {
+    "ty-sir:registry": "https://npm.pkg.github.com"
+  },
   "author": "",
   "license": "ISC",
   "peerDependencies": {
