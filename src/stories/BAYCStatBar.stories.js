@@ -6,5 +6,5 @@ import { BAYCStatBar } from "../components/BAYCStatBar"
 const stories = storiesOf("App test", module);
 
 stories.add('App', () => {
-  return(<BAYCStatBar tokenId={71} />)
+  return(<BAYCStatBar theme={{backgroundColor: 'red'}} tokenId={71} />)
 })

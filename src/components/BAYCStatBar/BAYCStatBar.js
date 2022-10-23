@@ -131,7 +131,7 @@ export const BAYCStatBar = ({ theme, tokenId }) => {
     if(!stakedAmount && !stakeCap && tokenId !== undefined) handleMulitcall()
   }, [stakedAmount, stakeCap])
   
-
+  console.log(theme)
   return(
     <div
       style={{
