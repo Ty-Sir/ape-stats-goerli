@@ -1,6 +1,6 @@
 {
   "name": "ape-stats-goerli",
-  "version": "0.0.2",
+  "version": "0.0.2-beta",
   "description": "Component that displays staked ApeCoin amount based on token ID on Goërli.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
