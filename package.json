@@ -12,7 +12,7 @@
     "build-lib": "rollup -c"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "ty-sir:registry": "https://npm.pkg.github.com"
   },
   "author": "",
   "license": "ISC",
