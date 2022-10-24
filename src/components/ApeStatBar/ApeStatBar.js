@@ -5,7 +5,13 @@ import { Multicall } from 'ethereum-multicall';
 import { BigNumber, ethers } from 'ethers';
 import { Skeleton } from "../Skeleton";
 import '../../styles.css';
-import { APE_COIN_STAKING_ABI, BAYC_NFT_ABI } from "../../constants/abi";
+import { APE_COIN_STAKING_ABI, NFT_ABI } from "../../constants/abi";
+import { 
+  APE_COIN_STAKING_GOERLI, 
+  APE_COIN_STAKING_MAINNET,
+  NFT_CONTRACTS_GOERLI,
+  NFT_CONTRACTS
+} from "../../constants/addresses";
 
 const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
 
@@ -15,38 +21,32 @@ const formatAmount = (amount) => {
   return new Intl.NumberFormat('en-US').format(amount)
 }
 
-export const BAYCStatBar = ({ theme, tokenId }) => {
-  const [ownerOf, setOwnerOf] = useState(undefined);
+const references = [
+  'getApeCoinStakeCall',
+  'getBaycStakesCall',
+  'getMaycStakesCall',
+  'getBakcStakesCall',
+]
+
+const methodNames = [
+  'getApeCoinStake',
+  'getBaycStakes',
+  'getMaycStakes',
+  'getBakcStakes',
+]
+
+export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }) => {
   const [stakedAmount, setStakedAmount] = useState(undefined);
   const [stakeCap, setStakeCap] = useState(undefined);
   const [unclaimedApeCoin, setUnclaimedApeCoin] = useState(undefined);
   const [rewards24hr, setRewards24hr] = useState(undefined)
-  
-  const stakingCallContext = [
-    {
-      reference: 'ApeCoinStaking',
-      contractAddress: '0x831e0c7A89Dbc52a1911b78ebf4ab905354C96Ce',
-      abi: APE_COIN_STAKING_ABI,
-      calls: [
-        { 
-          reference: 'getBaycStakesCall', 
-          methodName: 'getBaycStakes', 
-          methodParameters: [ownerOf] 
-        },
-        { 
-          reference: 'getTimeRangeByCall', 
-          methodName: 'getTimeRangeBy', 
-          methodParameters: ["1", '1'] 
-        },
-    ]
-    },
-  ];
+  const [ownerOf, setOwnerOf] = useState(undefined)
 
   const nftCallContext = [
     {
-      reference: 'BAYCContract',
-      contractAddress: '0xF40299b626ef6E197F5d9DE9315076CAB788B6Ef',
-      abi: BAYC_NFT_ABI,
+      reference: 'NFTContract',
+      contractAddress: isTestnet ? NFT_CONTRACTS_GOERLI[(Number(poolId))] : NFT_CONTRACTS[(Number(poolId))],
+      abi: NFT_ABI,
       calls: [
         { 
           reference: 'ownerOfCall', 
@@ -60,49 +60,79 @@ export const BAYCStatBar = ({ theme, tokenId }) => {
   const handleOwnerOf = async () => {
     try {
       const result = await multicall.call(nftCallContext)
-      setOwnerOf(result?.results?.BAYCContract?.callsReturnContext[0]?.returnValues[0])
+      const ownersAddress = result?.results?.NFTContract?.callsReturnContext[0]?.returnValues[0]
+      
+      setOwnerOf(ownersAddress)
     } catch (error) {
       console.log(error)
     }
   }
 
   useEffect(() => {
-    if(!ownerOf && tokenId) handleOwnerOf()
-  }, [tokenId, ownerOf])
+    if(poolId && String(poolId) !== '0' && !ownerOf && tokenId){
+      handleOwnerOf()
+    }
+  }, [poolId, tokenId, ownerOf])
   
+  
+  const stakingCallContext = [
+    {
+      reference: 'ApeCoinStaking',
+      contractAddress: isTestnet ? APE_COIN_STAKING_GOERLI : APE_COIN_STAKING_MAINNET,
+      abi: APE_COIN_STAKING_ABI,
+      calls: [
+        { 
+          reference: references[Number(poolId)], 
+          methodName: methodNames[Number(poolId)], 
+          methodParameters: [String(poolId) !== '0' ? ownerOf : stakersAddress] 
+        },
+        { 
+          reference: 'getPoolsUICall', 
+          methodName: 'getPoolsUI', 
+          methodParameters: [] 
+        },
+    ]
+    },
+  ];
 
   const handleMulitcall = async () => {
     try {
       const result = await multicall.call(stakingCallContext)
-      const tokenIdHex = ethers.utils.hexlify(tokenId)
+      let id = !tokenId ? id = "0" : id = String(tokenId)
+      const tokenIdHex = ethers.utils.hexlify(Number(id))
       const returnedStakes = result?.results?.ApeCoinStaking?.callsReturnContext[0]?.returnValues;
-      const stakeStruct = returnedStakes.find(stake => stake[1]?.hex === tokenIdHex);
-      const maxWeiStakeAmount = String(BigNumber.from(result?.results?.ApeCoinStaking?.callsReturnContext[1]?.returnValues[3]?.hex))
-      const weiStakedAmount = String(BigNumber.from(stakeStruct[2]?.hex));
-      const unclaimedWeiAmount = String(BigNumber.from(stakeStruct[3]?.hex));
-      const rewards = String(BigNumber.from(stakeStruct[4]?.hex));
-      console.log(rewards)
+      const stakeStruct = String(poolId) !== '0' ? returnedStakes.find(stake => stake[1]?.hex === tokenIdHex) : returnedStakes;
+      let poolCapWeiAmount = "0";
+      if(String(poolId) !== '0'){
+        //nft staking cap
+        poolCapWeiAmount = String(BigNumber.from(result?.results?.ApeCoinStaking?.callsReturnContext[1]?.returnValues[Number(poolId)][2][3]?.hex))
+        poolCapWeiAmount = ethers.utils.formatEther(poolCapWeiAmount)
+      }
+      
+      const weiStakedAmount = String(stakeStruct[2]?.hex);
+      const unclaimedWeiAmount = String(stakeStruct[3]?.hex);
+      const rewards = String(stakeStruct[4]?.hex);
+      // console.log(rewards)
       setStakedAmount(ethers.utils.formatEther(weiStakedAmount))
-      setStakeCap(ethers.utils.formatEther(maxWeiStakeAmount))
+      setStakeCap(poolCapWeiAmount)
       setUnclaimedApeCoin(ethers.utils.formatEther(unclaimedWeiAmount))
       setRewards24hr(ethers.utils.formatEther(rewards))
     } catch (error) {
       console.log(error)
     }
   }
-
-
+  
   useEffect(() => {
-    if(ownerOf && 
-      !stakedAmount && 
+    if(!stakedAmount && 
       !stakeCap && 
       !unclaimedApeCoin &&
-      !rewards24hr &&
-      tokenId !== undefined
+      !rewards24hr
     ) {
-      handleMulitcall();
+      if(poolId && ((String(poolId) !== "0" && ownerOf) || (String(poolId) === "0" && stakersAddress))){
+        handleMulitcall();
+      }
     }
-  }, [stakedAmount, stakeCap, ownerOf, rewards24hr, unclaimedApeCoin, tokenId])
+  }, [stakedAmount, stakeCap, rewards24hr, unclaimedApeCoin, stakersAddress, poolId, ownerOf])
   
   
   return(
@@ -115,15 +145,21 @@ export const BAYCStatBar = ({ theme, tokenId }) => {
         fontFamily: theme?.fontFamily ? theme?.fontFamily : "sans-serif",
         fontWeight: theme?.fontWeight ? theme?.fontWeight : "bold",
         boxShadow: theme?.boxShadow ? theme?.boxShadow : "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-        display: "flex",
         justifyContent: "space-between",
         minWidth: "fit-content",
         gap: "1rem",
         ...theme
       }}
+      className='ape-stat-bar-display'
     >
-      <div style={{display: "flex", gap: ".75rem", alignItems: "center"}}>
-        <ApeCoinLogo style={{width: "50px"}} />
+      <div 
+        style={{
+          gap: ".75rem", 
+          alignItems: "center"
+        }}
+        className='ape-stat-bar-display'
+      >
+        <ApeCoinLogo className='ape-stat-bar-ape-coin-logo' />
         <div style={{display: "grid", gap: ".25rem"}}>
           <div>$APE Staked</div>
           {!stakedAmount || !stakeCap ?
@@ -135,21 +171,30 @@ export const BAYCStatBar = ({ theme, tokenId }) => {
                 animation: 'fadeIn .75s'
               }}
             >
-              {formatAmount(stakedAmount) +" / "+ formatAmount(stakeCap)}
+              <span>{formatAmount(stakedAmount)}</span>
+               {
+                poolId && String(poolId) !== "0" ?
+                  <span>
+                    {` / ${formatAmount(stakeCap)}`}
+                  </span>
+                  :
+                  null
+                }
             </div>
           }
           <div 
             style={{
               fontSize: theme?.rateFontSize ? theme?.rateFontSize : "60%",
               display: 'flex',
-              gap: ".2rem"
+              gap: ".2rem",
             }}
+            className='ape-stat-bar-rewards'
           >
             <div>$APE/24hr:</div>
             {rewards24hr ?
                 <div>{formatAmount(rewards24hr)}</div>
               :
-              <Skeleton height="100%" />
+                <Skeleton height="100%" />
             }
           </div>
         </div>
@@ -163,8 +208,8 @@ export const BAYCStatBar = ({ theme, tokenId }) => {
             style={{
               color: theme?.statColor ? theme?.statColor : 'limegreen',
               animation: 'fadeIn .75s',
-              textAlign: 'end'
             }}
+            className='ape-stat-bar-unclaimed'
           >
             {formatAmount(unclaimedApeCoin)}
           </div>
@@ -177,7 +222,7 @@ export const BAYCStatBar = ({ theme, tokenId }) => {
             width: "fit-content",
             justifySelf: "end",
         }}
-          href="https://solidity.io/"
+          href="https://apestake.io/"
           target={"_blank"}
           rel="noopenner noreferrer"
         >

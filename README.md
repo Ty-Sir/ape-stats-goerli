@@ -17,11 +17,11 @@ yarn add ape-stats-goerli ethers
 ## Usage
 
 ```
-import { BAYCStatBar } from "ape-stats-goerli"
+import { ApeStatBar } from "ape-stats-goerli"
 
 export default function Page() {
   return(
-    <BAYCStatBar tokenId={<BAYC Token ID>} />
+    <ApeStatBar tokenId={<BAYC Token ID>} />
   )
 }
 
@@ -33,7 +33,7 @@ export default function Page() {
 
 ## Theming
 
-A `theme` object can be added as a prop in the BAYCStatBar component for custom styling.
+A `theme` object can be added as a prop in the ApeStatBar component for custom styling.
 
 Treat this object as you would inline css styling.
 
@@ -43,11 +43,11 @@ When styling the color of the Staked Amount and Unclaimed Amount `statColor: "ne
 When stying the font size of the 24hr rate and external link use `rateFontSize: "newSize"` and `linkFontSize: "newSize"` respectively.
 
 ```
-import { BAYCStatBar } from "ape-stats-goerli"
+import { ApeStatBar } from "ape-stats-goerli"
 
 export default function Page() {
   return(
-    <BAYCStatBar
+    <ApeStatBar
       tokenId={<BAYC Token ID>}
       theme={{
         backgroundColor: "black",

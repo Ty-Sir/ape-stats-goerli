@@ -2,3 +2,32 @@
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
+
+.ape-stat-bar-ape-coin-logo{
+  width: 50px;
+}
+
+.ape-stat-bar-display{
+  display: flex;
+}
+
+.ape-stat-bar-unclaimed{
+  text-align: end;
+}
+
+
+@media (max-width: 500px) {
+  .ape-stat-bar-ape-coin-logo{
+    width: 35px;
+    margin-bottom: .25rem;
+  }
+  .ape-stat-bar-display{
+    display: block;
+  }
+  .ape-stat-bar-unclaimed{
+    text-align: start;
+  }
+  .ape-stat-bar-rewards{
+    justify-self: end;
+  }
+}
