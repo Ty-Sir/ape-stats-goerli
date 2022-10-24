@@ -5,7 +5,7 @@ export const Skeleton = (props) => {
     <span
       style={{
         display: "inline-block",
-        height: '1.125rem',
+        height: '1.1rem',
         backgroundColor: "#DDDBDD",
         borderRadius: "3px",
         width: "-webkit-fill-available",

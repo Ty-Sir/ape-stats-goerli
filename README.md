@@ -62,3 +62,4 @@ export default function Page() {
 
 [ ] Types \
 [ ] light/dark mode flag
+[ ] Number formatter with prop for custom country
