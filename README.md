@@ -40,7 +40,7 @@ Treat this object as you would inline css styling.
 #### Exceptions
 
 When styling the color of the Staked Amount and Unclaimed Amount `statColor: "newColor"` is used. \
-When stying thr font size of the 24hr rate and external link use `rateFontSize: "newSize"` and `linkFontSize: "newSize"` respectively.
+When stying the font size of the 24hr rate and external link use `rateFontSize: "newSize"` and `linkFontSize: "newSize"` respectively.
 
 ```
 import { BAYCStatBar } from "ape-stats-goerli"
