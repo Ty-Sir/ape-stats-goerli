@@ -37,7 +37,10 @@ A `theme` object can be added as a prop in the BAYCStatBar component for custom 
 
 Treat this object as you would inline css styling.
 
-The only difference is when styling the color of the staked amount and Token Id `statColor: "newColor"` is used.
+#### Excpetions
+
+When styling the color of the Staked Amount and Unclaimed Amount `statColor: "newColor"` is used. \
+When stying thr font size of the 24hr rate and external link use `rateFontSize: "newSize"` and `linkFontSize: "newSize"` respectively.
 
 ```
 import { BAYCStatBar } from "ape-stats-goerli"
