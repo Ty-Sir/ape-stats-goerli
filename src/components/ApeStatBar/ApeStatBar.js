@@ -35,7 +35,7 @@ const methodNames = [
   'getBakcStakes',
 ]
 
-export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }) => {
+export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestnet = true }) => {
   const [stakedAmount, setStakedAmount] = useState(undefined);
   const [stakeCap, setStakeCap] = useState(undefined);
   const [unclaimedApeCoin, setUnclaimedApeCoin] = useState(undefined);
@@ -61,7 +61,6 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
     try {
       const result = await multicall.call(nftCallContext)
       const ownersAddress = result?.results?.NFTContract?.callsReturnContext[0]?.returnValues[0]
-      
       setOwnerOf(ownersAddress)
     } catch (error) {
       console.log(error)
@@ -74,7 +73,6 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
     }
   }, [poolId, tokenId, ownerOf])
   
-  
   const stakingCallContext = [
     {
       reference: 'ApeCoinStaking',
@@ -82,9 +80,9 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
       abi: APE_COIN_STAKING_ABI,
       calls: [
         { 
-          reference: references[Number(poolId)], 
-          methodName: methodNames[Number(poolId)], 
-          methodParameters: [String(poolId) !== '0' ? ownerOf : stakersAddress] 
+          reference: references[poolId && Number(poolId)], 
+          methodName: methodNames[poolId && Number(poolId)], 
+          methodParameters: [poolId && String(poolId) !== '0' ? ownerOf : stakersAddress] 
         },
         { 
           reference: 'getPoolsUICall', 
@@ -98,9 +96,11 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
   const handleMulitcall = async () => {
     try {
       const result = await multicall.call(stakingCallContext)
-      let id = !tokenId ? id = "0" : id = String(tokenId)
+      console.log(result)
+      let id = !tokenId ? "0" : String(tokenId)
       const tokenIdHex = ethers.utils.hexlify(Number(id))
       const returnedStakes = result?.results?.ApeCoinStaking?.callsReturnContext[0]?.returnValues;
+      console.log(returnedStakes)
       const stakeStruct = String(poolId) !== '0' ? returnedStakes.find(stake => stake[1]?.hex === tokenIdHex) : returnedStakes;
       let poolCapWeiAmount = "0";
       if(String(poolId) !== '0'){
@@ -112,7 +112,6 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
       const weiStakedAmount = String(stakeStruct[2]?.hex);
       const unclaimedWeiAmount = String(stakeStruct[3]?.hex);
       const rewards = String(stakeStruct[4]?.hex);
-      // console.log(rewards)
       setStakedAmount(ethers.utils.formatEther(weiStakedAmount))
       setStakeCap(poolCapWeiAmount)
       setUnclaimedApeCoin(ethers.utils.formatEther(unclaimedWeiAmount))
@@ -121,7 +120,6 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
       console.log(error)
     }
   }
-  
   useEffect(() => {
     if(!stakedAmount && 
       !stakeCap && 
@@ -129,11 +127,11 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId, isTestnet }
       !rewards24hr
     ) {
       if(poolId && ((String(poolId) !== "0" && ownerOf) || (String(poolId) === "0" && stakersAddress))){
+
         handleMulitcall();
       }
     }
-  }, [stakedAmount, stakeCap, rewards24hr, unclaimedApeCoin, stakersAddress, poolId, ownerOf])
-  
+  }, [stakedAmount, stakeCap, rewards24hr, unclaimedApeCoin, ownerOf, poolId, stakersAddress])
   
   return(
     <div
