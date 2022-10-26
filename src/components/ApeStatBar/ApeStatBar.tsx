@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ApeCoinLogo } from "../ApeCoinLogo"
 import { ExternalLinkIcon } from "../ExternalLinkIcon"
 import { Multicall } from 'ethereum-multicall';
@@ -12,13 +12,18 @@ import {
   NFT_CONTRACTS_GOERLI,
   NFT_CONTRACTS
 } from "../../constants/addresses";
+import { ApeStatBarProps } from "./ApeStatBar.types";
+import { getPrettyValue, round } from "../../utils/formatters";
 
 const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
 
 const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
 
-const formatAmount = (amount) => {
-  return new Intl.NumberFormat('en-US').format(amount)
+const formatAmount = (num = "0", percision = 4) => {
+  if (Number(num) < 0.0001 && Number(num) > 0) {
+    return '< 0.0001'
+  }
+  return getPrettyValue(parseFloat(round(num, percision)))
 }
 
 const references = [
@@ -35,12 +40,12 @@ const methodNames = [
   'getBakcStakes',
 ]
 
-export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestnet = true }) => {
-  const [stakedAmount, setStakedAmount] = useState(undefined);
-  const [stakeCap, setStakeCap] = useState(undefined);
-  const [unclaimedApeCoin, setUnclaimedApeCoin] = useState(undefined);
-  const [rewards24hr, setRewards24hr] = useState(undefined)
-  const [ownerOf, setOwnerOf] = useState(undefined)
+export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = true }: ApeStatBarProps) => {
+  const [stakedAmount, setStakedAmount] = React.useState<undefined|string>(undefined);
+  const [stakeCap, setStakeCap] = React.useState<undefined|string>(undefined);
+  const [unclaimedApeCoin, setUnclaimedApeCoin] = React.useState<undefined|string>(undefined);
+  const [rewards24hr, setRewards24hr] = React.useState<undefined|string>(undefined)
+  const [ownerOf, setOwnerOf] = React.useState<undefined|string>(undefined)
 
   const nftCallContext = [
     {
@@ -67,7 +72,7 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestn
     }
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     if(poolId && String(poolId) !== '0' && !ownerOf && tokenId){
       handleOwnerOf()
     }
@@ -96,11 +101,9 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestn
   const handleMulitcall = async () => {
     try {
       const result = await multicall.call(stakingCallContext)
-      console.log(result)
       let id = !tokenId ? "0" : String(tokenId)
       const tokenIdHex = ethers.utils.hexlify(Number(id))
       const returnedStakes = result?.results?.ApeCoinStaking?.callsReturnContext[0]?.returnValues;
-      console.log(returnedStakes)
       const stakeStruct = String(poolId) !== '0' ? returnedStakes.find(stake => stake[1]?.hex === tokenIdHex) : returnedStakes;
       let poolCapWeiAmount = "0";
       if(String(poolId) !== '0'){
@@ -120,14 +123,14 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestn
       console.log(error)
     }
   }
-  useEffect(() => {
+
+  React.useEffect(() => {
     if(!stakedAmount && 
       !stakeCap && 
       !unclaimedApeCoin &&
       !rewards24hr
     ) {
       if(poolId && ((String(poolId) !== "0" && ownerOf) || (String(poolId) === "0" && stakersAddress))){
-
         handleMulitcall();
       }
     }
@@ -157,11 +160,14 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestn
         }}
         className='ape-stat-bar-display'
       >
-        <ApeCoinLogo className='ape-stat-bar-ape-coin-logo' />
+        <ApeCoinLogo />
         <div style={{display: "grid", gap: ".25rem"}}>
           <div>$APE Staked</div>
-          {!stakedAmount || !stakeCap ?
-            <Skeleton />
+          {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
+            <Skeleton 
+              height={theme?.fontSize} 
+              backgroundColor={theme?.skeletonBackgroundColor} 
+            />
             :
             <div
               style={{
@@ -189,18 +195,24 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = 0, isTestn
             className='ape-stat-bar-rewards'
           >
             <div>$APE/24hr:</div>
-            {rewards24hr ?
-                <div>{formatAmount(rewards24hr)}</div>
+            {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
+              <Skeleton 
+                height={theme?.rateFontSize ? theme?.rateFontSize : ".6rem"} 
+                backgroundColor={theme?.skeletonBackgroundColor} 
+              />
               :
-                <Skeleton height="100%" />
+              <div>{formatAmount(rewards24hr)}</div>
             }
           </div>
         </div>
       </div>
-      <div style={{display: "grid", gap: ".25rem"}}>
+      <div style={{display: "grid", gap: ".25rem",}}>
         <div>Unclaimed $APE</div>
-        {!unclaimedApeCoin ?
-          <Skeleton />
+        {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
+          <Skeleton 
+            height={theme?.fontSize} 
+            backgroundColor={theme?.skeletonBackgroundColor} 
+          />
           :
           <div
             style={{

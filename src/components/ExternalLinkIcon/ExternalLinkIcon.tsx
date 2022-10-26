@@ -1,6 +1,6 @@
 import React from "react";
 
-export const ExternalLinkIcon = (props) => (
+export const ExternalLinkIcon = () => (
   <svg
     stroke="currentColor"
     fill="none"
@@ -9,7 +9,6 @@ export const ExternalLinkIcon = (props) => (
     height="1em"
     width="1em"
     xmlns="http://www.w3.org/2000/svg"
-    {...props}
   >
     <path
       strokeLinecap="round"
