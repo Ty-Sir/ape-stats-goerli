@@ -9,7 +9,6 @@ stories.add('App', () => {
   return(
     <div>
       <ApeStatBar 
-        poolId='0'
         stakersAddress="0x47Ef3bF350F70724F2fd34206990cdE9C3A6B6F0"
         isTestnet={true}
       />
@@ -17,6 +16,9 @@ stories.add('App', () => {
         tokenId={71} 
         poolId="1"
         isTestnet={true}
+        theme={{
+          skeletonBackgroundColor: "pink"
+        }}
       />
       <ApeStatBar 
         tokenId={75} 

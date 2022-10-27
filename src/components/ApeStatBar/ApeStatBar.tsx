@@ -1,8 +1,7 @@
 import React from "react";
 import { ApeCoinLogo } from "../ApeCoinLogo"
 import { ExternalLinkIcon } from "../ExternalLinkIcon"
-import { Multicall, ContractCallContext,
- ContractCallResults } from 'ethereum-multicall';
+import { Multicall } from 'ethereum-multicall';
 import { BigNumber, ethers } from 'ethers';
 import { Skeleton } from "../Skeleton";
 import '../../styles.css';
