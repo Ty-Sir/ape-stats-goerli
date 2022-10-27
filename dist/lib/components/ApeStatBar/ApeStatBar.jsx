@@ -37,6 +37,12 @@ const methodNames = [
     'getMaycStakes',
     'getBakcStakes',
 ];
+const poolTitle = [
+    'APE',
+    'APE/BAYC',
+    'APE/MAYC',
+    'APE/BAKC'
+];
 export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = true }) => {
     const [stakedAmount, setStakedAmount] = React.useState(undefined);
     const [stakeCap, setStakeCap] = React.useState(undefined);
@@ -135,7 +141,12 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTes
         }} className='ape-stat-bar-display'>
         <ApeCoinLogo />
         <div style={{ display: "grid", gap: ".25rem" }}>
-          <div>$APE Staked</div>
+          <div style={{ display: 'flex', alignItems: "baseline" }}>
+            <div>$APE Staked</div>
+            <div style={{ fontSize: (theme === null || theme === void 0 ? void 0 : theme.subTitleFontSize) ? theme === null || theme === void 0 ? void 0 : theme.subTitleFontSize : "60%" }}>
+              &nbsp;{poolTitle[Number(poolId)]}
+            </div>
+          </div>
           {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
             <Skeleton height={theme === null || theme === void 0 ? void 0 : theme.fontSize} backgroundColor={theme === null || theme === void 0 ? void 0 : theme.skeletonBackgroundColor}/>
             :

@@ -1,7 +1,8 @@
 import React from "react";
 import { ApeCoinLogo } from "../ApeCoinLogo"
 import { ExternalLinkIcon } from "../ExternalLinkIcon"
-import { Multicall } from 'ethereum-multicall';
+import { Multicall, ContractCallContext,
+ ContractCallResults } from 'ethereum-multicall';
 import { BigNumber, ethers } from 'ethers';
 import { Skeleton } from "../Skeleton";
 import '../../styles.css';
@@ -26,18 +27,25 @@ const formatAmount = (num = "0", percision = 4) => {
   return getPrettyValue(parseFloat(round(num, percision)))
 }
 
-const references = [
+const references: string[] = [
   'getApeCoinStakeCall',
   'getBaycStakesCall',
   'getMaycStakesCall',
   'getBakcStakesCall',
 ]
 
-const methodNames = [
+const methodNames: string[] = [
   'getApeCoinStake',
   'getBaycStakes',
   'getMaycStakes',
   'getBakcStakes',
+]
+
+const poolTitle: string[] = [
+  'APE',
+  'APE/BAYC',
+  'APE/MAYC',
+  'APE/BAKC'
 ]
 
 export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = true }: ApeStatBarProps) => {
@@ -162,7 +170,12 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTes
       >
         <ApeCoinLogo />
         <div style={{display: "grid", gap: ".25rem"}}>
-          <div>$APE Staked</div>
+          <div style={{display: 'flex', alignItems: "baseline"}}>
+            <div>$APE Staked</div>
+            <div style={{fontSize: theme?.subTitleFontSize ? theme?.subTitleFontSize : "60%"}}>
+              &nbsp;{poolTitle[Number(poolId)]}
+            </div>
+          </div>
           {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
             <Skeleton 
               height={theme?.fontSize} 
