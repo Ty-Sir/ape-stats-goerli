@@ -1,10 +1,15 @@
 {
   "name": "ape-stats-goerli",
-  "version": "0.0.25-beta",
+  "version": "0.0.26-beta",
   "description": "Reusable React component that displays staked ApeCoin data.",
   "main": "dist/index.ts",
   "module": "dist/index.es.ts",
   "repository": "https://github.com/Ty-Sir/ape-stats-goerli.git",
+  "files": [
+    "dist/types",
+    "dist/index.ts",
+    "dist/index.es.ts"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
