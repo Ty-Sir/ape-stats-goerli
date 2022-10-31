@@ -12,13 +12,13 @@ Installed with npm or yarn.
 If [`ethers`](https://www.npmjs.com/package/ethers) is not in your project, install with [`ethers`](https://www.npmjs.com/package/ethers) as well.
 
 ```bash
-  npm install ape-package ethers
+  npm install ape-stats-goerli ethers
 ```
 
 or
 
 ```bash
-  yarn add ape-package ethers
+  yarn add ape-stats-goerli ethers
 ```
 
 ## Usage
@@ -41,7 +41,7 @@ If `poolId` is left `undefined` it will default to `0` ie. the ApeCoin staking p
 The code snippet below will render the stats for `tokenId` `1` of the BAYC collection used on Goërli.
 
 ```javascript
-import { ApeComponent } from "ape-package";
+import { ApeComponent } from "ape-stats-goerli";
 
 export default function Page() {
   return <ApeComponent tokenId={"10"} poolId={"1"} isTestnet={true} />;
@@ -67,23 +67,23 @@ If any of the default styling given to certain parts of the component is undesir
 | `linkFontSize`            | Font size of the external link.                   | `60%`       |
 
 ```javascript
-import { ApeComponent } from 'ape-package'
+import { ApeComponent } from "ape-stats-goerli";
 
 export default function Page() {
-  return(
+  return (
     <ApeComponent
-        tokenId={"10"}
-        poolId={"1"}
-        theme={{
-            borderRadius: "10px",
-            backgroundColor: "#000000",
-            border: "1px solid #45494D",
-            color: "white",
-            padding: "1.5rem"
-            skeletonBackgroundColor: "pink"
-        }}
+      tokenId={"10"}
+      poolId={"1"}
+      theme={{
+        borderRadius: "10px",
+        backgroundColor: "#000000",
+        border: "1px solid #45494D",
+        color: "white",
+        padding: "1.5rem",
+        skeletonBackgroundColor: "pink",
+      }}
     />
-  )
+  );
 }
 ```
 
