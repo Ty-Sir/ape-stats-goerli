@@ -1,7 +1,7 @@
 import { React } from "react"
 import { storiesOf } from "@storybook/react"
 
-import { ApeStatBar } from "../components/ApeStatBar"
+import { ApeStatBar } from "../index"
 
 const stories = storiesOf("App test", module);
 
@@ -13,7 +13,7 @@ stories.add('App', () => {
         isTestnet={true}
       />
       <ApeStatBar 
-        tokenId={71} 
+        tokenId={'71'} 
         poolId="1"
         isTestnet={true}
         theme={{
@@ -21,12 +21,12 @@ stories.add('App', () => {
         }}
       />
       <ApeStatBar 
-        tokenId={75} 
+        tokenId={'75'} 
         poolId="2"
         isTestnet={true}
       />
       <ApeStatBar 
-        tokenId={65} 
+        tokenId={'65'} 
         poolId="3"
         isTestnet={true}
       />

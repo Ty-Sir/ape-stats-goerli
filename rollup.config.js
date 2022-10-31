@@ -1,44 +1,53 @@
-import babel from 'rollup-plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
-import external from 'rollup-plugin-peer-deps-external';
-import { terser } from 'rollup-plugin-terser';
-import postcss from 'rollup-plugin-postcss';
-import typescript from '@rollup/plugin-typescript';
-import jsx from 'acorn-jsx';
+import resolve from "@rollup/plugin-node-resolve"
+import commonjs from "@rollup/plugin-commonjs"
+import typescript from "@rollup/plugin-typescript"
+import { terser } from "rollup-plugin-terser"
+import external from "rollup-plugin-peer-deps-external"
+import postcss from "rollup-plugin-postcss"
+import dts from "rollup-plugin-dts"
+
+const packageJson = require("./package.json")
+const dev = process.env.NODE_ENV !== "production";
 
 export default [
   {
     input: './src/index.ts',
     output: [
-      {
-        file: 'dist/index.ts',
-        format: 'cjs',
-      },
-      {
-        file: 'dist/index.es.ts',
-        format: 'es',
-        exports: 'named',
-      }
+			{
+				file: packageJson.main,
+				format: "cjs",
+				name: "ape-stats-goerli"
+			},
+			{
+        file: packageJson.module,
+				format: "esm",
+			},
     ],
-    acornInjectPlugins: [jsx()],
     plugins: [
-      typescript({ 
-        compilerOptions: 
-          { 
-            jsx: 'react',
-          },
-      }),
+			external(),
+			resolve(),
+			commonjs(),
+			typescript({ tsconfig: "./tsconfig.json" }),
       postcss({
         plugins: [],
         minimize: true,
       }),
-      babel({
-        exclude: 'node_modules/**',
-        presets: ['@babel/preset-react']
+			terser({
+        ecma: 2015,
+        mangle: { toplevel: true },
+        compress: {
+          toplevel: true,
+          drop_console: !dev,
+          drop_debugger: !dev,
+        },
+        output: { quote_style: 1 },
       }),
-      external(['./styles.css']),
-      resolve(),
-      terser(),
     ]
-  }
+  },
+  {
+		input: "dist/esm/types/index.d.ts",
+		output: [{ file: "dist/index.d.ts", format: "esm" }],
+		external: [/\.css$/],
+		plugins: [dts()],
+	}
 ];

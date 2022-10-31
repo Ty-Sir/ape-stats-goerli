@@ -47,7 +47,7 @@ const poolTitle: string[] = [
   'APE/BAKC'
 ]
 
-export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = true }: ApeStatBarProps) => {
+const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = true }: ApeStatBarProps) => {
   const [stakedAmount, setStakedAmount] = React.useState<undefined|string>(undefined);
   const [stakeCap, setStakeCap] = React.useState<undefined|string>(undefined);
   const [unclaimedApeCoin, setUnclaimedApeCoin] = React.useState<undefined|string>(undefined);
@@ -169,8 +169,8 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTes
       >
         <ApeCoinLogo />
         <div style={{display: "grid", gap: ".25rem"}}>
-          <div style={{display: 'flex', alignItems: "baseline"}}>
-            <div>$APE Staked</div>
+          <div style={{display: 'flex', alignItems: "baseline",}}>
+            <div style={{width: "max-content"}}>$APE Staked</div>
             <div style={{fontSize: theme?.subTitleFontSize ? theme?.subTitleFontSize : "60%"}}>
               &nbsp;{poolTitle[Number(poolId)]}
             </div>
@@ -263,3 +263,5 @@ export const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTes
     </div>
   )
 }
+
+export default ApeStatBar;

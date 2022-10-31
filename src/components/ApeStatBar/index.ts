@@ -1,1 +1,1 @@
-export * from "./ApeStatBar"
+export { default } from "./ApeStatBar"

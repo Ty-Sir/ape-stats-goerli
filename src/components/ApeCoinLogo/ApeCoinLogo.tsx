@@ -9,7 +9,7 @@ export const ApeCoinLogo = () => (
     y={0}
     viewBox="0 0 185.6 185.6"
     xmlSpace="preserve"
-    className={'ape-stat-bar-ape-coin-logo'}
+    style={{width: "40px", height: "40px"}}
   >
     <style>{".st1{fill:#fff}"}</style>
     <g id="Layer_3">
