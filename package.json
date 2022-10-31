@@ -1,6 +1,6 @@
 {
   "name": "ape-stats-goerli",
-  "version": "0.0.39-beta",
+  "version": "0.0.40-beta",
   "description": "Reusable React component that displays staked ApeCoin data.",
   "main": "dist/cjs/index.ts",
   "module": "dist/esm/index.ts",
