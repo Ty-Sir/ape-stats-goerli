@@ -1,7 +1,7 @@
 import { React } from "react"
 import { storiesOf } from "@storybook/react"
 
-import { ApeStatBar } from "../index"
+import { ApeStatBar, UnusedSerums } from "../index"
 
 const stories = storiesOf("App test", module);
 
@@ -29,6 +29,16 @@ stories.add('App', () => {
         tokenId={'65'} 
         poolId="3"
         isTestnet={true}
+      />
+    </div>
+  )
+})
+
+stories.add("UnusedSerums", () => {
+  return(
+    <div>
+      <UnusedSerums 
+        tokenId='0'
       />
     </div>
   )

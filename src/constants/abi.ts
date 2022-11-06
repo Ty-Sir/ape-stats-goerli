@@ -458,3 +458,30 @@ export const NFT_ABI = [
     "type": "function"
   }
 ]
+
+export const MAYC_ABI = [
+  { 
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "serumType", 
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "apeId",
+        "type": "uint256"
+      }
+    ],
+    "name": "hasApeBeenMutatedWithType",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
