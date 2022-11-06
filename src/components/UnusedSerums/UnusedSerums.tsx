@@ -5,9 +5,7 @@ import '../../styles.css';
 import { MAYC_ABI } from "../../constants/abi";
 import { MAYC } from "../../constants/addresses";
 import { UnusedSerumsProps } from "./UnusedSerums.types";
-import m1Serum from "../SerumImages/m1-serum.webp";
-import m2Serum from "../SerumImages/m2-serum.webp";
-import megaSerum from "../SerumImages/mega-serum.webp";
+import { M1Serum, M2Serum, MegaSerum } from "../SerumImages";
 
 const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7");
 
@@ -26,9 +24,9 @@ const serumTypeString: string[] = [
 ]
 
 const serumImages: any[] = [
-  m1Serum,
-  m2Serum,
-  megaSerum,
+  <M1Serum />,
+  <M2Serum />,
+  <MegaSerum />,
 ]
 
 const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
@@ -169,15 +167,7 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
                   }}
                 >
                   <div style={{paddingRight: ".5rem"}}>
-                    <img 
-                      src={i.image} 
-                      alt='serum' 
-                      style={{
-                        borderRadius: "10px",
-                        width: "50px",
-                        height: "50px",
-                      }}
-                    />
+                    {i.image}
                   </div>
                   {i.type}
                 </div>

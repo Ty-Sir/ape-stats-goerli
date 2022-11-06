@@ -1,1 +1,2 @@
-export { default as ApeStatBar } from "./ApeStatBar";
+export { ApeStatBar } from "./ApeStatBar";
+export { UnusedSerums } from "./UnusedSerums";

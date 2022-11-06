@@ -39,6 +39,16 @@ stories.add("UnusedSerums", () => {
     <div>
       <UnusedSerums 
         tokenId='0'
+        theme={{
+          maxWidth: "800px",
+          margin: '0 auto 2rem auto',
+          borderRadius: "10px",
+          // backgroundColor: "#000000",
+          // border: "1px solid #45494D",
+          // color: "white",
+          // padding: "1.5rem",
+          // skeletonBackgroundColor: "blue"
+        }}
       />
     </div>
   )

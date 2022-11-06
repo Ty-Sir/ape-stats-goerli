@@ -1,1 +1,1 @@
-export { default } from "./UnusedSerums"
+export { default as UnusedSerums } from "./UnusedSerums"

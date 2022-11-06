@@ -5,6 +5,7 @@ import { terser } from "rollup-plugin-terser"
 import external from "rollup-plugin-peer-deps-external"
 import postcss from "rollup-plugin-postcss"
 import dts from "rollup-plugin-dts"
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const packageJson = require("./package.json")
 const dev = process.env.NODE_ENV !== "production";
@@ -27,6 +28,7 @@ export default [
 			external(),
 			resolve(),
 			commonjs(),
+      nodeResolve(),
 			typescript({ tsconfig: "./tsconfig.json" }),
       postcss({
         plugins: [],

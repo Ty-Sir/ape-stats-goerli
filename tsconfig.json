@@ -14,8 +14,5 @@
 		"declarationDir": "types",
 		"emitDeclarationOnly": true
 	},
-	"include": [
-		"src/components/**/*.ts",
-	],
 	"exclude": ["node_modules", "**/*stories", "**/*types"]
 }
