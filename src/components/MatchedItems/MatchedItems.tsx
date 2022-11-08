@@ -350,10 +350,9 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
       return newMetadata
     })
   }
-  
+
   //ownedByColor
   //dividerColor
-
   return(
     <div
       style={{
@@ -372,7 +371,7 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
     >
       <div style={{paddingBottom: "1rem"}}>
         Matched Items
-        ({metadata && !isLoading ? String(metadata.length) : "-"})
+        ({metadata && !isLoading ? String(metadata.filter(i => i.owner !== undefined).length) : "-"})
       </div>
 
       {isLoading && (
@@ -430,7 +429,7 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
       )}
 
       {metadata && !isLoading && (
-        metadata.map((i, idx) => (
+        metadata.filter(i => i.owner !== undefined).map((i, idx) => (
           <div key={idx}>
             <div 
               style={{
@@ -521,14 +520,14 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
                 </span>
               </div>
             </div>
-            {idx + 1 !== metadata.length && (
+            {idx + 1 !== metadata.filter(i => i.owner !== undefined).length && (
               <div style={{height: "1px", background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)"}} />
             )}
           </div>
         ))
       )}
 
-      {metadata && metadata.length === 0 && !isLoading && (
+      {metadata && metadata.filter(i => i.owner !== undefined).length === 0 && !isLoading && (
         <div>No Matched Items Found</div>
       )}
 

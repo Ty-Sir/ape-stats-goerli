@@ -10,4 +10,5 @@ declare enum RoundingModes {
     UP = 7
 }
 export declare function round(number: any, precision?: number, mode?: RoundingModes): string;
+export declare const getEllipsisTxt: (str: string, n?: number) => string;
 export {};

@@ -17,4 +17,11 @@ interface UnusedSerumsProps {
 
 declare const UnusedSerums: ({ theme, tokenId }: UnusedSerumsProps) => JSX.Element;
 
-export { ApeStatBar, UnusedSerums };
+interface MatchedItemsProps {
+    theme?: CSSProperties | any;
+    tokenId?: String;
+}
+
+declare const MatchedItems: ({ theme, tokenId }: MatchedItemsProps) => JSX.Element;
+
+export { ApeStatBar, MatchedItems, UnusedSerums };

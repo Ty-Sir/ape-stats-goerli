@@ -38,7 +38,7 @@ stories.add("UnusedSerums", () => {
   return(
     <div>
       <UnusedSerums 
-        tokenId='2228'
+        tokenId='2111'
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
@@ -70,7 +70,7 @@ stories.add("MatchedItems", () => {
         }}
       /> */}
       <MatchedItems 
-        tokenId='2258'
+        tokenId='2111'
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
