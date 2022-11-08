@@ -5,6 +5,7 @@ import { SkeletonProps } from "./Skeleton.type";
 export const Skeleton = ({ height, backgroundColor }: SkeletonProps): JSX.Element => {
   return(
     <span
+      className="loading-state"
       style={{
         display: "inline-block",
         boxSizing: 'border-box',

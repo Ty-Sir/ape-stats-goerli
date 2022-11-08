@@ -29,8 +29,14 @@ const serumImages: any[] = [
   <MegaSerum />,
 ]
 
+const serumLinks: string[] = [
+  "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/0",
+  "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/1",
+  "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/69"
+]
+
 const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
-  const [items, setItems] = React.useState<undefined|Array<{hasUsed: boolean, type: string, image: any}>>(undefined);
+  const [items, setItems] = React.useState<undefined|Array<{hasUsed: boolean, type: string, image: any, link: string}>>(undefined);
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   
   const unusedItemsCall = [
@@ -67,7 +73,8 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
         itemArray.push({
           hasUsed: hasUsed,
           type: serumTypeString[i],
-          image: serumImages[i]
+          image: serumImages[i],
+          link: serumLinks[i],
         });
       }
       setItems(itemArray)
@@ -85,7 +92,7 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
 
   //theme exceptions:
   //-dividerColor
-  
+  //-buyButtonColor
   return(
     <div
       style={{
@@ -103,7 +110,8 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
       className='ape-stat-bar-display'
     >
       <div style={{paddingBottom: "1rem"}}>
-        Unused Serums ({items && !isLoading ? String(items.filter(i => !i.hasUsed).length) : "-"})
+        Unused Serums 
+        ({items && !isLoading ? String(items.filter(i => !i.hasUsed).length) : "-"})
       </div>
 
       {isLoading && (
@@ -114,7 +122,10 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
         >
           <div 
             style={{
-              display: "flex"
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: ".5rem"
             }}
           >
             <div
@@ -124,6 +135,7 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
               }}
             >
               <div 
+                className="loading-state"
                 style={{
                   borderRadius: "10px",
                   width: "50px",
@@ -131,18 +143,26 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
                   marginRight: ".5rem", 
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
-                >
-              </div>
+              />
               <div 
+                className="loading-state"
                 style={{
                   borderRadius: "5px",
                   width: "150px",
                   height: "20px",
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
-              >
-              </div>
+                />
             </div>
+            <div
+              className="loading-state"
+              style={{
+                borderRadius: "10px",
+                height: "35px",
+                width: "135px",
+                backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
+              }}
+            />
           </div>
         </div>
       )}
@@ -157,7 +177,10 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
             >
               <div 
                 style={{
-                  display: "flex"
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: ".5rem"
                 }}
               >
                 <div
@@ -166,15 +189,42 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
                     alignItems: "center"
                   }}
                 >
-                  <div style={{paddingRight: ".5rem"}}>
+                  <div style={{paddingRight: ".5rem", animation: 'fadeIn .75s'}}>
                     {i.image}
                   </div>
+                  <div style={{animation: 'fadeIn .75s'}}>
                   {i.type}
+                  </div>
                 </div>
+                <a
+                  href={i.link} 
+                  target="_blank" 
+                  rel="noopenner noreferrer"
+                  style={{
+                    cursor: "pointer",
+                    color: "inherit",
+                    textDecoration: "none"
+                  }}
+                >
+                  <div
+                    style={{
+                      textTransform: "uppercase",
+                      color: theme?.buyButtonColor ? theme?.buyButtonColor : "rgb(85, 189, 82)",
+                      border: "1px solid",
+                      borderColor: theme?.buyButtonColor ? theme?.buyButtonColor : "rgb(85, 189, 82)",
+                      padding: ".5rem .75rem",
+                      fontSize: "80%",
+                      borderRadius: "10px",
+                      textAlign: "center"
+                    }}
+                  >
+                    Eligble to buy
+                  </div>
+                </a>
               </div>
             </div>
             {idx + 1 !== items.filter(i => !i.hasUsed).length && (
-              <div style={{height: "1px", background: theme?.dividerColor ? theme?.dividerColor : "#DDDBDD"}} />
+              <div style={{height: "1px", background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)"}} />
             )}
           </div>
         ))

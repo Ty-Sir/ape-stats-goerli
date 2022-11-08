@@ -10,7 +10,7 @@ export const M1Serum = (props: SVGProps<SVGSVGElement>) => (
     {...props}
     style={{
       borderRadius: "10px",
-      border: "1px solid #DDDBDD",
+      border: "1px solid rgb(55, 59, 66)",
       backgroundColor: "rgb(187, 215, 78)"
     }}
   >
@@ -30,7 +30,7 @@ export const M2Serum = (props: SVGProps<SVGSVGElement>) => (
     {...props}
     style={{
       borderRadius: "10px",
-      border: "1px solid #DDDBDD",
+      border: "1px solid rgb(55, 59, 66)",
       backgroundColor: "rgb(187, 215, 78)"
     }}
   >
@@ -55,7 +55,7 @@ export const MegaSerum = (props: SVGProps<SVGSVGElement>) => (
     {...props}
     style={{
       borderRadius: "10px",
-      border: "1px solid #DDDBDD",
+      border: "1px solid rgb(55, 59, 66)",
       backgroundColor: "rgb(187, 215, 78)"
     }}
   >

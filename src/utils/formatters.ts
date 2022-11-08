@@ -218,3 +218,10 @@ export function round(number: any, precision = 0, mode = RoundingModes.HALF_EVEN
         throw Error("Precision is not a number: " + precision);
     return roundOff(number, precision, mode);
 }
+
+export const getEllipsisTxt = (str: string, n = 5) => {
+    if (str) {
+      return `${str.slice(0, n)}...${str.slice(str.length - n)}`;
+    }
+    return "";
+  };

@@ -483,5 +483,29 @@ export const MAYC_ABI = [
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "apeId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint8",
+        "name": "serumTypeId",
+        "type": "uint8"
+      }
+    ],
+    "name": "getMutantIdForApeAndSerumCombination",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

@@ -1,11 +1,11 @@
 import { React } from "react"
 import { storiesOf } from "@storybook/react"
 
-import { ApeStatBar, UnusedSerums } from "../index"
+import { ApeStatBar, UnusedSerums, MatchedItems } from "../index"
 
-const stories = storiesOf("App test", module);
+const stories = storiesOf("Ape Components", module);
 
-stories.add('App', () => {
+stories.add('Ape Stat Bar', () => {
   return(
     <div>
       <ApeStatBar 
@@ -38,16 +38,47 @@ stories.add("UnusedSerums", () => {
   return(
     <div>
       <UnusedSerums 
-        tokenId='0'
+        tokenId='2228'
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
           borderRadius: "10px",
-          // backgroundColor: "#000000",
-          // border: "1px solid #45494D",
-          // color: "white",
-          // padding: "1.5rem",
-          // skeletonBackgroundColor: "blue"
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
+          skeletonBackgroundColor: "pink"
+        }}
+      />
+    </div>
+  )
+})
+
+stories.add("MatchedItems", () => {
+  return(
+    <div>
+      {/* <MatchedItems 
+        tokenId='102'
+        theme={{
+          maxWidth: "800px",
+          margin: '0 auto 2rem auto',
+          borderRadius: "10px",
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
+        }}
+      /> */}
+      <MatchedItems 
+        tokenId='2258'
+        theme={{
+          maxWidth: "800px",
+          margin: '0 auto 2rem auto',
+          borderRadius: "10px",
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
         }}
       />
     </div>
