@@ -90,9 +90,6 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
     }
   }, [items, tokenId])
 
-  //theme exceptions:
-  //-dividerColor
-  //-buyButtonColor
   return(
     <div
       style={{

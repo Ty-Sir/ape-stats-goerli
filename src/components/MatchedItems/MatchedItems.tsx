@@ -356,8 +356,6 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
     })
   }
 
-  //ownedByColor
-  //dividerColor
   return(
     <div
       style={{
