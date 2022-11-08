@@ -70,7 +70,7 @@ stories.add("MatchedItems", () => {
         }}
       /> */}
       <MatchedItems 
-        tokenId='1011'
+        tokenId='7'
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',

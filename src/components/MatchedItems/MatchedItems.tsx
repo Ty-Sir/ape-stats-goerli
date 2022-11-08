@@ -272,7 +272,12 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
       const data = await res.json();
       let imageURL = data.image;
       if(imageURL.includes("ipfs://")){
-        imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
+        if(i === 0){
+          imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
+        }
+        if(i === 1){
+          imageURL = imageURL.replace("ipfs://", "https://ipfs.io/ipfs/")
+        }
       }
       return {
         url: imageURL,
