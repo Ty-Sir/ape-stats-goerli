@@ -215,7 +215,7 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
                       textAlign: "center"
                     }}
                   >
-                    Eligble to buy
+                    Eligible to buy
                   </div>
                 </a>
               </div>
