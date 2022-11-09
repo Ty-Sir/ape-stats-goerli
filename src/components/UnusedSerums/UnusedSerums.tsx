@@ -145,7 +145,8 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
                 className="loading-state"
                 style={{
                   borderRadius: "5px",
-                  width: "150px",
+                  width: "15vw",
+                  maxWidth: "150px",
                   height: "20px",
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
@@ -156,7 +157,8 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
               style={{
                 borderRadius: "10px",
                 height: "35px",
-                width: "135px",
+                width: "15vw",
+                maxWidth: "135px",
                 backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
               }}
             />

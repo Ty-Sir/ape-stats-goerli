@@ -412,7 +412,8 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
                 className="loading-state"
                 style={{
                   borderRadius: "5px",
-                  width: "150px",
+                  maxWidth: "150px",
+                  width: "20vw",
                   height: "20px",
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
@@ -422,7 +423,8 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
               className="loading-state"
               style={{
                 borderRadius: "5px",
-                width: "100px",
+                maxWidth: "100px",
+                width: "15vw",
                 height: "20px",
                 backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
               }}
