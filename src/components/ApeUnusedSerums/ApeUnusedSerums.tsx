@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import '../../styles.css';
 import { MAYC_ABI } from "../../constants/abi";
 import { MAYC } from "../../constants/addresses";
-import { UnusedSerumsProps } from "./UnusedSerums.types";
+import { ApeUnusedSerumsProps } from "./ApeUnusedSerums.types";
 import { M1Serum, M2Serum, MegaSerum } from "../SerumImages";
 
 const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7");
@@ -35,7 +35,7 @@ const serumLinks: string[] = [
   "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/69"
 ]
 
-const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
+const ApeUnusedSerums = ({ theme, tokenId }: ApeUnusedSerumsProps) => {
   const [items, setItems] = React.useState<undefined|Array<{hasUsed: boolean, type: string, image: any, link: string}>>(undefined);
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   
@@ -223,7 +223,13 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
               </div>
             </div>
             {idx + 1 !== items.filter(i => !i.hasUsed).length && (
-              <div style={{height: "1px", background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)"}} />
+              <div 
+                style={{
+                  height: "1px", 
+                  background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)",
+                  margin: theme?.itemGap ? `${theme?.itemGap} 0` : ".5rem 0"
+                }} 
+              />
             )}
           </div>
         ))
@@ -237,4 +243,4 @@ const UnusedSerums = ({ theme, tokenId }: UnusedSerumsProps) => {
   )
 }
 
-export default UnusedSerums;
+export default ApeUnusedSerums;

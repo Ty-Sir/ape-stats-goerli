@@ -1,3 +1,3 @@
 export { ApeStatBar } from "./ApeStatBar";
-export { UnusedSerums } from "./UnusedSerums";
-export { MatchedItems } from "./MatchedItems";
+export { ApeUnusedSerums } from "./ApeUnusedSerums";
+export { ApeMatchedItems } from "./ApeMatchedItems";

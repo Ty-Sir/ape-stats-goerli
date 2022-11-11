@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import '../../styles.css';
 import { MAYC_ABI, NFT_ABI } from "../../constants/abi";
 import { MAYC, NFT_CONTRACTS, OTHERSIDE } from "../../constants/addresses";
-import { MatchedItemsProps } from "./MatchedItems.types";
+import { ApeMatchedItemsProps } from "./ApeMatchedItems.types";
 import { KennelIcon, MutantIcon, OthersideIcon } from "../CollectionIcons";
 import { getEllipsisTxt } from "../../utils/formatters";
 
@@ -62,7 +62,7 @@ const tokenTypeIcon: ITokenTypeIcon<any> = {
   kennel: <KennelIcon />
 }
 
-const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
+const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
   const [hasMutated, setHasMutated] = React.useState<undefined|Array<{reference: string, methodName: string, methodParameters: Array<string>}>>(undefined);
   const [mutantTokenIds, setMutantTokenIds] = React.useState<undefined|Array<string>>(undefined);
   const [metadata, setMetadata] = React.useState<undefined|Array<any>|Array<{owner: string, tokenId: string, type: string, url: string, loaded: boolean, isError: boolean}>>(undefined);
@@ -526,7 +526,13 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
               </div>
             </div>
             {idx + 1 !== metadata.filter(i => i.owner !== undefined).length && (
-              <div style={{height: "1px", background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)"}} />
+              <div 
+                style={{
+                  height: "1px", 
+                  background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)",
+                  margin: theme?.itemGap ? `${theme?.itemGap} 0` : ".5rem 0"
+                }} 
+              />
             )}
           </div>
         ))
@@ -540,4 +546,4 @@ const MatchedItems = ({ theme, tokenId }: MatchedItemsProps) => {
   )
 }
 
-export default MatchedItems;
+export default ApeMatchedItems;

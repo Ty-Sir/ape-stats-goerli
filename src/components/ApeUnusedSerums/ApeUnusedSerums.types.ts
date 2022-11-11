@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
 
-export interface MatchedItemsProps {
+export interface ApeUnusedSerumsProps {
   theme?: CSSProperties | any
   tokenId?: String
 }

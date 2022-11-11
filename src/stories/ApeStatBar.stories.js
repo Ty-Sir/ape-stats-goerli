@@ -1,7 +1,7 @@
 import { React } from "react"
 import { storiesOf } from "@storybook/react"
 
-import { ApeStatBar, UnusedSerums, MatchedItems } from "../index"
+import { ApeStatBar, ApeUnusedSerums, ApeMatchedItems } from "../index"
 
 const stories = storiesOf("Ape Components", module);
 
@@ -34,11 +34,11 @@ stories.add('Ape Stat Bar', () => {
   )
 })
 
-stories.add("UnusedSerums", () => {
+stories.add("ApeUnusedSerums", () => {
   return(
     <div>
-      <UnusedSerums 
-        tokenId='10'
+      <ApeUnusedSerums 
+        tokenId='102'
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
@@ -47,17 +47,17 @@ stories.add("UnusedSerums", () => {
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
-          skeletonBackgroundColor: "pink"
+          skeletonBackgroundColor: "pink",
         }}
       />
     </div>
   )
 })
 
-stories.add("MatchedItems", () => {
+stories.add("ApeMatchedItems", () => {
   return(
     <div>
-      {/* <MatchedItems 
+      {/* <ApeMatchedItems 
         tokenId='102'
         theme={{
           maxWidth: "800px",
@@ -69,7 +69,7 @@ stories.add("MatchedItems", () => {
           padding: "1.5rem",
         }}
       /> */}
-      <MatchedItems 
+      <ApeMatchedItems 
         tokenId='7'
         theme={{
           maxWidth: "800px",
