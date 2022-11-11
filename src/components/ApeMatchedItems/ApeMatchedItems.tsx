@@ -62,10 +62,12 @@ const tokenTypeIcon: ITokenTypeIcon<any> = {
   kennel: <KennelIcon />
 }
 
+const maxIPFSCallAmount = 5;
+
 const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
   const [hasMutated, setHasMutated] = React.useState<undefined|Array<{reference: string, methodName: string, methodParameters: Array<string>}>>(undefined);
   const [mutantTokenIds, setMutantTokenIds] = React.useState<undefined|Array<string>>(undefined);
-  const [metadata, setMetadata] = React.useState<undefined|Array<any>|Array<{owner: string, tokenId: string, type: string, url: string, loaded: boolean, isError: boolean}>>(undefined);
+  const [metadata, setMetadata] = React.useState<undefined|Array<any>|Array<{owner: string, tokenId: string, type: string, url: string, loaded: boolean, isError: boolean, ipfsCallCount: number}>>(undefined);
   const [imageLinks, setImageLinks] = React.useState<undefined|Array<{url: string, tokenId: string, type: string}>>(undefined);
   const [owners, setOwners] = React.useState<undefined|Array<{owner: string, tokenId: string, type: string}>>(undefined)
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
@@ -318,6 +320,7 @@ const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
           ...owners[i], 
           loaded: false,
           isError: false,
+          ipfsCallCount: 0,
           ...(imageLinks?.find((itmInner) => itmInner.tokenId === owners[i].tokenId && itmInner.type === owners[i].type))}
          )
       }
@@ -347,10 +350,19 @@ const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
   const handleImageError = (type: string, tokenId: string) => {
     setMetadata(prevMetadata => {
       const newMetadata = prevMetadata?.map((i) => {
-        if(i.type === type && i.tokenId === tokenId){
-          return {...i, loaded: true, isError: true}
-        }
+        if(i.ipfsCallCount < maxIPFSCallAmount){
+          if(i.type === type && i.tokenId === tokenId){
+            //if ipfs timeout occurs, will retry to get image 5 times before displaying error message
+            const timestamp = (new Date()).getTime();
+            return {...i, url: `${i.url}?_=${timestamp}`, ipfsCallCount: i.ipfsCallCount + 1}
+          }
+          return i;
+        } else {
+          if(i.type === type && i.tokenId === tokenId){
+            return {...i, loaded: true, isError: true}
+          }
           return i
+        }
       })
       return newMetadata
     })
