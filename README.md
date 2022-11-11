@@ -7,11 +7,11 @@ Three React components that display Bored Ape related data.
 Displays staked ApeCoin amount, max pool amount, unclaimed amount, and daily rate
 for the ApeCoin pool, BAYC pool, MAYC pool, and BAKC pool.
 
-### 2) UnusedSerums
+### 2) ApeUnusedSerums
 
 Given a Bored Ape `tokenId`, the unused serums to create a Mutant Ape are displayed.
 
-### 3) MatchedItems
+### 3) ApeMatchedItems
 
 Given a Bored Ape `tokenId`, if they exist, the accompanying MAYC, BAKC, and OTHR tokens are displayed.
 
@@ -64,37 +64,37 @@ export default function Page() {
 }
 ```
 
-### UnusedSerums 🧪
+### ApeUnusedSerums 🧪
 
 The `tokenId` is **required**.
 
 The code snippet below will render the unused serums for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
 ```javascript
-import { UnusedSerums } from "ape-stats-goerli";
+import { ApeUnusedSerums } from "ape-stats-goerli";
 
 export default function Page() {
-  return <UnusedSerums tokenId={"1"} />;
+  return <ApeUnusedSerums tokenId={"1"} />;
 }
 ```
 
-### MatchedItems 🖇️
+### ApeMatchedItems 🖇️
 
 The `tokenId` is **required**.
 
 The code snippet below will render, if they exist, the accompanying MAYC, BAKC, and OTHR tokens for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
 ```javascript
-import { MatchedItems } from "ape-stats-goerli";
+import { ApeMatchedItems } from "ape-stats-goerli";
 
 export default function Page() {
-  return <MatchedItems tokenId={"1"} />;
+  return <ApeMatchedItems tokenId={"1"} />;
 }
 ```
 
 ## Theming
 
-A `theme` object can be added as a prop to `ApeStatBar`, `UnusedSerums`, and `MatchedItems` for custom styling. \
+A `theme` object can be added as a prop to `ApeStatBar`, `ApeUnusedSerums`, and `ApeMatchedItems` for custom styling. \
 \
 Treat this object as you would inline css styling. \
 \
@@ -110,21 +110,23 @@ If any of the default styling given to certain parts of the component is undesir
 | `rateFontSize`            | Font size of the 24hr rate.                       | `.6rem`     |
 | `linkFontSize`            | Font size of the external link.                   | `60%`       |
 
-#### Exceptions for UnusedSerums
+#### Exceptions for ApeUnusedSerums
 
 | Theme Key                 | Description                              | Default            |
 | :------------------------ | :--------------------------------------- | :----------------- |
 | `dividerColor`            | Color of dividing line.                  | `rgb(55, 59, 66)`  |
 | `skeletonBackgroundColor` | Color of the loading placeholder.        | `#DDDBDD`          |
 | `buyButtonColor`          | Font and border color of the buy button. | `rgb(85, 189, 82)` |
+| `itemsGap`                | Vertical gap between items               | `0.5rem`           |
 
-#### Exceptions for MatchedItems
+#### Exceptions for ApeMatchedItems
 
 | Theme Key                 | Description                                  | Default              |
 | :------------------------ | :------------------------------------------- | :------------------- |
 | `dividerColor`            | Color of dividing line.                      | `rgb(55, 59, 66)`    |
 | `skeletonBackgroundColor` | Color of the loading placeholder.            | `#DDDBDD`            |
 | `ownedByColor`            | Font color of the text that says "Owned by". | `rgb(140, 149, 156)` |
+| `itemsGap`                | Vertical gap between items                   | `0.5rem`             |
 
 ```javascript
 import { ApeStatBar } from 'ape-stats-goerli'
@@ -157,14 +159,14 @@ export default function Page() {
 | `theme`          | `object`  | Inline CSS styling object.                                     | `undefined` |
 | `isTestnet`      | `boolean` | Boolean used for choose which chain to get staking data from.  | `true`      |
 
-## Props for UnusedSerums
+## Props for ApeUnusedSerums
 
 | Parameter | Type     | Description                                   | Default     |
 | :-------- | :------- | :-------------------------------------------- | :---------- |
 | `tokenId` | `string` | **Required**. Valid `tokenId` for BAYC token. | `undefined` |
 | `theme`   | `object` | Inline CSS styling object.                    | `undefined` |
 
-## Props for MatchedItems
+## Props for ApeMatchedItems
 
 | Parameter | Type     | Description                                   | Default     |
 | :-------- | :------- | :-------------------------------------------- | :---------- |
