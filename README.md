@@ -118,6 +118,7 @@ If any of the default styling given to certain parts of the component is undesir
 | `skeletonBackgroundColor` | Color of the loading placeholder.        | `#DDDBDD`          |
 | `buyButtonColor`          | Font and border color of the buy button. | `rgb(85, 189, 82)` |
 | `itemsGap`                | Vertical gap between items               | `0.5rem`           |
+| `imageGap`                | Spacing between image and title.         | `0.5rem`           |
 
 #### Exceptions for ApeMatchedItems
 
@@ -127,6 +128,7 @@ If any of the default styling given to certain parts of the component is undesir
 | `skeletonBackgroundColor` | Color of the loading placeholder.            | `#DDDBDD`            |
 | `ownedByColor`            | Font color of the text that says "Owned by". | `rgb(140, 149, 156)` |
 | `itemsGap`                | Vertical gap between items                   | `0.5rem`             |
+| `imageGap`                | Spacing between image and title.             | `0.5rem`             |
 
 ```javascript
 import { ApeStatBar } from 'ape-stats-goerli'

@@ -48,6 +48,7 @@ stories.add("ApeUnusedSerums", () => {
           color: "white",
           padding: "1.5rem",
           skeletonBackgroundColor: "pink",
+          imageGap: "2rem"
         }}
       />
     </div>
@@ -79,6 +80,7 @@ stories.add("ApeMatchedItems", () => {
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
+          imageGap: "2rem"
         }}
       />
     </div>

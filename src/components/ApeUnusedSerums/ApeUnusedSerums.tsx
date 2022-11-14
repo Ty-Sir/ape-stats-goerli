@@ -137,7 +137,7 @@ const ApeUnusedSerums = ({ theme, tokenId }: ApeUnusedSerumsProps) => {
                   borderRadius: "10px",
                   width: "50px",
                   height: "50px",
-                  marginRight: ".5rem", 
+                  marginRight: theme?.imageGap ? theme?.imageGap :  ".5rem", 
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
               />
@@ -188,7 +188,11 @@ const ApeUnusedSerums = ({ theme, tokenId }: ApeUnusedSerumsProps) => {
                     alignItems: "center"
                   }}
                 >
-                  <div style={{paddingRight: ".5rem", animation: 'fadeIn .75s'}}>
+                  <div style={{
+                      paddingRight: theme?.imageGap ? theme?.imageGap : ".5rem", 
+                      animation: 'fadeIn .75s'
+                    }}
+                  >
                     {i.image}
                   </div>
                   <div style={{animation: 'fadeIn .75s'}}>

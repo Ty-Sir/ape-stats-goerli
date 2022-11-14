@@ -415,7 +415,7 @@ const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
                   borderRadius: "10px",
                   width: "50px",
                   height: "50px",
-                  marginRight: ".5rem", 
+                  marginRight: theme?.imageGap ? theme?.imageGap :  ".5rem", 
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
               >
@@ -500,7 +500,7 @@ const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
                   </div>
                   <div
                     style={{
-                      paddingLeft: ".5rem",
+                      paddingLeft: theme?.imageGap ? theme?.imageGap :  ".5rem",
                       animation: 'fadeIn .75s'
                     }}
                   >
