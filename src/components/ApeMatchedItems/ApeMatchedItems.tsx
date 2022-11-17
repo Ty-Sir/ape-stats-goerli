@@ -52,12 +52,6 @@ const tokenTypeString: ITokenTypeString<string> = {
   kennel: "BAKC"
 }
 
-const marketplaceByType: ITokenTypeString<string> = {
-  mutant: "https://apecoinmarketplace.com/collections/0x60e4d786628fea6478f785a6d7e704777c86a7c6/tokens/",
-  otherside: "https://apecoinmarketplace.com/collections/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/tokens/",
-  kennel: "https://apecoinmarketplace.com/collections/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/tokens/"
-}
-
 interface ITokenTypeIcon<Icon> {
   [id: string]: Icon;
 }
@@ -70,7 +64,12 @@ const tokenTypeIcon: ITokenTypeIcon<any> = {
 
 const maxIPFSCallAmount = 5;
 
-const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
+const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
+  const marketplaceByType: ITokenTypeString<string> = {
+    mutant: `https://${baseUrl}/collections/0x60e4d786628fea6478f785a6d7e704777c86a7c6/tokens/`,
+    otherside: `https://${baseUrl}/collections/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/tokens/`,
+    kennel: `https://${baseUrl}/collections/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/tokens/`
+  }
   const [hasMutated, setHasMutated] = React.useState<undefined|Array<{reference: string, methodName: string, methodParameters: Array<string>}>>(undefined);
   const [mutantTokenIds, setMutantTokenIds] = React.useState<undefined|Array<string>>(undefined);
   const [metadata, setMetadata] = React.useState<undefined|Array<any>|Array<{owner: string, tokenId: string, type: string, url: string, loaded: boolean, isError: boolean, ipfsCallCount: number}>>(undefined);

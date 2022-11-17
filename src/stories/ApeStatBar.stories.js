@@ -83,6 +83,7 @@ stories.add("ApeMatchedItems", () => {
           padding: "1.5rem",
           imageGap: "2rem"
         }}
+        baseUrl="bayc.snag-render.com"
       />
     </div>
   )
