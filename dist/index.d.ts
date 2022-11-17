@@ -13,15 +13,17 @@ declare const ApeStatBar: ({ theme, tokenId, stakersAddress, poolId, isTestnet }
 interface ApeUnusedSerumsProps {
     theme?: CSSProperties | any;
     tokenId?: String;
+    baseUrl: String;
 }
 
-declare const ApeUnusedSerums: ({ theme, tokenId }: ApeUnusedSerumsProps) => JSX.Element;
+declare const ApeUnusedSerums: ({ theme, tokenId, baseUrl }: ApeUnusedSerumsProps) => JSX.Element;
 
 interface ApeMatchedItemsProps {
     theme?: CSSProperties | any;
     tokenId?: String;
+    baseUrl: String;
 }
 
-declare const ApeMatchedItems: ({ theme, tokenId }: ApeMatchedItemsProps) => JSX.Element;
+declare const ApeMatchedItems: ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => JSX.Element;
 
 export { ApeMatchedItems, ApeStatBar, ApeUnusedSerums };
