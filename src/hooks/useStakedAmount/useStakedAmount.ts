@@ -27,7 +27,7 @@ const methodNames: string[] = [
   'getBakcStakes',
 ]
 
-const useStakedAmount = (isTestnet: Boolean = true, poolId: String, tokenId: String, stakersAddress: String) => {
+const useStakedAmount = (isTestnet: Boolean = true, poolId: String, tokenId?: String, stakersAddress?: String) => {
   const [stakedAmount, setStakedAmount] = React.useState<undefined|string>(undefined);
   const [ownerOf, setOwnerOf] = React.useState<undefined|string>(undefined)
   
