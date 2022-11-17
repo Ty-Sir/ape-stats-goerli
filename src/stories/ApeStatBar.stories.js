@@ -1,7 +1,7 @@
 import { React } from "react"
 import { storiesOf } from "@storybook/react"
-
 import { ApeStatBar, ApeUnusedSerums, ApeMatchedItems } from "../index"
+import { useStakedAmount } from "../index";
 
 const stories = storiesOf("Ape Components", module);
 
@@ -55,6 +55,15 @@ stories.add("ApeUnusedSerums", () => {
     </div>
   )
 })
+
+const Demo = () => {
+  const { stakedAmount } = useStakedAmount(true, '1', '71')
+  return(
+    <div>{stakedAmount}</div>
+  )
+}
+
+stories.add("Hook", () => (<Demo />))
 
 stories.add("ApeMatchedItems", () => {
   return(

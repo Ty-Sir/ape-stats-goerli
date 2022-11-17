@@ -26,4 +26,8 @@ interface ApeMatchedItemsProps {
 
 declare const ApeMatchedItems: ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => JSX.Element;
 
-export { ApeMatchedItems, ApeStatBar, ApeUnusedSerums };
+declare const useStakedAmount: (isTestnet: Boolean | undefined, poolId: String, tokenId: String, stakersAddress: String) => {
+    stakedAmount: string | undefined;
+};
+
+export { ApeMatchedItems, ApeStatBar, ApeUnusedSerums, useStakedAmount };
