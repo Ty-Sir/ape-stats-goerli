@@ -2,6 +2,6 @@ import { CSSProperties } from "react"
 
 export interface ApeUnusedSerumsProps {
   theme?: CSSProperties | any
-  tokenId?: String,
+  tokenId?: String
   baseUrl: String
 }
