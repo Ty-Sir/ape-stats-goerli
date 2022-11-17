@@ -39,6 +39,7 @@ stories.add("ApeUnusedSerums", () => {
     <div>
       <ApeUnusedSerums 
         tokenId='102'
+        baseUrl={'bayc.snag-render.com'}
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',

@@ -52,6 +52,12 @@ const tokenTypeString: ITokenTypeString<string> = {
   kennel: "BAKC"
 }
 
+const marketplaceByType: ITokenTypeString<string> = {
+  mutant: "https://apecoinmarketplace.com/collections/0x60e4d786628fea6478f785a6d7e704777c86a7c6/tokens/",
+  otherside: "https://apecoinmarketplace.com/collections/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/tokens/",
+  kennel: "https://apecoinmarketplace.com/collections/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/tokens/"
+}
+
 interface ITokenTypeIcon<Icon> {
   [id: string]: Icon;
 }
@@ -504,7 +510,18 @@ const ApeMatchedItems = ({ theme, tokenId }: ApeMatchedItemsProps) => {
                       animation: 'fadeIn .75s'
                     }}
                   >
-                    {`${tokenTypeString[i.type]} #${i.tokenId}`}
+                    <a
+                      href={`${marketplaceByType[i.type]}${i.tokenId}`} 
+                      target="_blank" 
+                      rel="noopenner noreferrer"
+                      style={{
+                        cursor: "pointer",
+                        color: "inherit",
+                        textDecoration: "none"
+                      }}
+                    >
+                      {`${tokenTypeString[i.type]} #${i.tokenId}`}
+                    </a>
                   </div>
                 </div>
                 <span style={{

@@ -66,7 +66,7 @@ export default function Page() {
 
 ### ApeUnusedSerums 🧪
 
-The `tokenId` is **required**.
+The `tokenId` and `baseUrl` is **required**.
 
 The code snippet below will render the unused serums for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
@@ -74,13 +74,13 @@ The code snippet below will render the unused serums for `tokenId` `1` of the BA
 import { ApeUnusedSerums } from "ape-stats-goerli";
 
 export default function Page() {
-  return <ApeUnusedSerums tokenId={"1"} />;
+  return <ApeUnusedSerums baseUrl={"apecoinmarketplace.com"} tokenId={"1"} />;
 }
 ```
 
 ### ApeMatchedItems 🖇️
 
-The `tokenId` is **required**.
+The `tokenId` and `baseUrl` is **required**.
 
 The code snippet below will render, if they exist, the accompanying MAYC, BAKC, and OTHR tokens for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
@@ -88,7 +88,7 @@ The code snippet below will render, if they exist, the accompanying MAYC, BAKC, 
 import { ApeMatchedItems } from "ape-stats-goerli";
 
 export default function Page() {
-  return <ApeMatchedItems tokenId={"1"} />;
+  return <ApeMatchedItems baseUrl={"apecoinmarketplace.com"} tokenId={"1"} />;
 }
 ```
 

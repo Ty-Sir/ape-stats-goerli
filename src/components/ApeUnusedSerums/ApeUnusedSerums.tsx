@@ -29,13 +29,13 @@ const serumImages: any[] = [
   <MegaSerum />,
 ]
 
-const serumLinks: string[] = [
-  "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/0",
-  "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/1",
-  "https://bayc.snag-render.com/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/69"
-]
 
-const ApeUnusedSerums = ({ theme, tokenId }: ApeUnusedSerumsProps) => {
+const ApeUnusedSerums = ({ theme, tokenId, baseUrl }: ApeUnusedSerumsProps) => {
+  const serumLinks: string[] = [
+    `https://${baseUrl}/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/0`,
+    `https://${baseUrl}/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/1`,
+    `https://${baseUrl}/collections/0x22c36bfdcef207f9c0cc941936eff94d4246d14a/tokens/69`
+  ]
   const [items, setItems] = React.useState<undefined|Array<{hasUsed: boolean, type: string, image: any, link: string}>>(undefined);
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   
@@ -196,7 +196,18 @@ const ApeUnusedSerums = ({ theme, tokenId }: ApeUnusedSerumsProps) => {
                     {i.image}
                   </div>
                   <div style={{animation: 'fadeIn .75s'}}>
-                  {i.type}
+                    <a
+                    href={i.link} 
+                    target="_blank" 
+                    rel="noopenner noreferrer"
+                    style={{
+                      cursor: "pointer",
+                      color: "inherit",
+                      textDecoration: "none"
+                    }}
+                  >
+                    {i.type}
+                  </a>
                   </div>
                 </div>
                 <a
