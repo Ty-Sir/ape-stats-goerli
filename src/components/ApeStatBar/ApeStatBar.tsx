@@ -15,6 +15,8 @@ import {
 import { ApeStatBarProps } from "./ApeStatBar.types";
 import { getPrettyValue, round } from "../../utils/formatters";
 
+const STAKING_LIVE_TIMESTAMP_APPROX = 1669429761;
+
 const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
 
 const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
@@ -142,7 +144,7 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
       }
     }
   }, [stakedAmount, stakeCap, rewards24hr, unclaimedApeCoin, ownerOf, poolId, stakersAddress])
-  
+  console.log(new Date().getTime() / 1000 < 1669343361)
   return(
     <div
       style={{
@@ -175,11 +177,16 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
               &nbsp;{poolTitle[Number(poolId)]}
             </div>
           </div>
-          {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
-            <Skeleton 
-              height={theme?.fontSize} 
-              backgroundColor={theme?.skeletonBackgroundColor} 
-            />
+          {/* --- remove section when mainnetlive */}
+            {!isTestnet && new Date().getTime() / 1000 < STAKING_LIVE_TIMESTAMP_APPROX ?
+              <div style={{fontSize: ".85rem"}}>*Stats live upon deployment*</div>
+            :
+            // ----
+            !unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
+              <Skeleton 
+                height={theme?.fontSize} 
+                backgroundColor={theme?.skeletonBackgroundColor} 
+              />
             :
             <div
               style={{
@@ -207,7 +214,12 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
             className='ape-stat-bar-rewards'
           >
             <div>$APE/24hr:</div>
-            {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
+            {/* --- remove section when mainnetlive */}
+            {!isTestnet && new Date().getTime() / 1000 < STAKING_LIVE_TIMESTAMP_APPROX ?
+              <div>-</div>
+            :
+            // ---
+            !unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
               <Skeleton 
                 height={theme?.rateFontSize ? theme?.rateFontSize : ".6rem"} 
                 backgroundColor={theme?.skeletonBackgroundColor} 
@@ -220,7 +232,12 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
       </div>
       <div style={{display: "grid", gap: ".25rem",}}>
         <div>Unclaimed $APE</div>
-        {!unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
+        {/* --- remove section when mainnetlive */}
+        {!isTestnet && new Date().getTime() / 1000 < STAKING_LIVE_TIMESTAMP_APPROX ?
+          <div className='ape-stat-bar-unclaimed'>-</div>
+        :
+        // ---
+        !unclaimedApeCoin || !rewards24hr || !stakedAmount || !stakeCap ?
           <Skeleton 
             height={theme?.fontSize} 
             backgroundColor={theme?.skeletonBackgroundColor} 

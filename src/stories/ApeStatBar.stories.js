@@ -15,7 +15,7 @@ stories.add('Ape Stat Bar', () => {
       <ApeStatBar 
         tokenId={'71'} 
         poolId="1"
-        isTestnet={true}
+        isTestnet={false}
         theme={{
           skeletonBackgroundColor: "pink"
         }}

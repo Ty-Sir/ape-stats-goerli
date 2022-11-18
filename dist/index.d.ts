@@ -22,9 +22,10 @@ interface ApeMatchedItemsProps {
     theme?: CSSProperties | any;
     tokenId?: String;
     baseUrl: String;
+    collectionId: String;
 }
 
-declare const ApeMatchedItems: ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => JSX.Element;
+declare const ApeMatchedItems: ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedItemsProps) => JSX.Element;
 
 declare const useStakedAmount: (isTestnet: Boolean | undefined, poolId: String, tokenId?: String, stakersAddress?: String) => {
     stakedAmount: string | undefined;
