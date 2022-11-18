@@ -1,6 +1,6 @@
 {
   "name": "ape-stats-goerli",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "React components to display Bored Ape related data.",
   "main": "dist/cjs/index.ts",
   "module": "dist/esm/index.ts",

@@ -144,7 +144,7 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
       }
     }
   }, [stakedAmount, stakeCap, rewards24hr, unclaimedApeCoin, ownerOf, poolId, stakersAddress])
-  console.log(new Date().getTime() / 1000 < 1669343361)
+  
   return(
     <div
       style={{
