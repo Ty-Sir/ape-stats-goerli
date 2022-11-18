@@ -1,17 +1,21 @@
 # ape-stats-goerli
 
-Three React components that display Bored Ape related data.
+Three React components and a hook that display Bored Ape related data.
 
 ### 1) ApeStatBar
 
 Displays staked ApeCoin amount, max pool amount, unclaimed amount, and daily rate
 for the ApeCoin pool, BAYC pool, MAYC pool, and BAKC pool.
 
-### 2) ApeUnusedSerums
+### 2) useStakedAmount
+
+Returns the staked ApeCoin amount for the ApeCoin pool, BAYC pool, MAYC pool, and BAKC pool.
+
+### 3) ApeUnusedSerums
 
 Given a Bored Ape `tokenId`, the unused serums to create a Mutant Ape are displayed.
 
-### 3) ApeMatchedItems
+### 4) ApeMatchedItems
 
 Given a Bored Ape `tokenId`, if they exist, the accompanying MAYC, BAKC, and OTHR tokens are displayed.
 

@@ -5,7 +5,7 @@ import '../../styles.css';
 import { MAYC_ABI, NFT_ABI } from "../../constants/abi";
 import { MAYC, NFT_CONTRACTS, OTHERSIDE } from "../../constants/addresses";
 import { ApeMatchedItemsProps } from "./ApeMatchedItems.types";
-import { KennelIcon, MutantIcon, OthersideIcon } from "../CollectionIcons";
+import { BoredApeIcon, KennelIcon, MutantIcon, OthersideIcon } from "../CollectionIcons";
 import { getEllipsisTxt } from "../../utils/formatters";
 
 const provider = new ethers.providers.JsonRpcProvider("https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7");
@@ -30,16 +30,22 @@ const getKennelURI = (tokenId: string) => {
   return `https://gateway.ipfs.io/ipfs/QmTDcCdt3yb6mZitzWBmQr65AW6Wska295Dg9nbEYpSUDR/${tokenId}`
 }
 
+const getApeURI = (tokenId: string) => {
+  return `https://gateway.ipfs.io/ipfs/QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/${tokenId}`
+}
+
 const tokenURIs: ((tokenId: string) => string)[] = [
   getMutantURI,
   getKennelURI,
   getOthersideURI,
+  getApeURI
 ]
 
 const linkReference: string[] = [
   'mutant',
   'kennel',
-  'otherside'
+  'otherside',
+  'ape'
 ]
 
 interface ITokenTypeString<TValue> {
@@ -49,7 +55,25 @@ interface ITokenTypeString<TValue> {
 const tokenTypeString: ITokenTypeString<string> = {
   mutant: "MAYC",
   otherside: "Otherside",
-  kennel: "BAKC"
+  kennel: "BAKC",
+  ape: "BAYC"
+}
+
+const collectionType: ITokenTypeString<string> = {
+  mutant: "0",
+  otherside: "1",
+  kennel: "2",
+  ape: "3"
+}
+
+const apeIdByMegaMutantId: ITokenTypeString<string> = {
+  "30000": "8074",
+  "30001": "416",
+  "30002": "9317",
+  "30003": "3287",
+  "30004": "4687",
+  "30005": "5235",
+  "30006": "5840",
 }
 
 interface ITokenTypeIcon<Icon> {
@@ -59,16 +83,31 @@ interface ITokenTypeIcon<Icon> {
 const tokenTypeIcon: ITokenTypeIcon<any> = {
   mutant: <MutantIcon />,
   otherside: <OthersideIcon />,
-  kennel: <KennelIcon />
+  kennel: <KennelIcon />,
+  ape: <BoredApeIcon />
 }
 
 const maxIPFSCallAmount = 5;
 
-const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
+const getTokenIdFromMutantId = (mutantId: string) => {
+  if(apeIdByMegaMutantId[mutantId] !== undefined){
+    return apeIdByMegaMutantId[mutantId]
+  }
+  return (Math.floor((Number(mutantId) - 10000) / 2)).toString()
+}
+
+//collectionId
+//"0": mutant token
+//"1": otherside token
+//"2": kennel token
+//"3": ape token
+
+const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedItemsProps) => {
   const marketplaceByType: ITokenTypeString<string> = {
     mutant: `https://${baseUrl}/collections/0x60e4d786628fea6478f785a6d7e704777c86a7c6/tokens/`,
     otherside: `https://${baseUrl}/collections/0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258/tokens/`,
-    kennel: `https://${baseUrl}/collections/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/tokens/`
+    kennel: `https://${baseUrl}/collections/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/tokens/`,
+    ape: `https://${baseUrl}/collections/0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D/tokens/`,
   }
   const [hasMutated, setHasMutated] = React.useState<undefined|Array<{reference: string, methodName: string, methodParameters: Array<string>}>>(undefined);
   const [mutantTokenIds, setMutantTokenIds] = React.useState<undefined|Array<string>>(undefined);
@@ -76,7 +115,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
   const [imageLinks, setImageLinks] = React.useState<undefined|Array<{url: string, tokenId: string, type: string}>>(undefined);
   const [owners, setOwners] = React.useState<undefined|Array<{owner: string, tokenId: string, type: string}>>(undefined)
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
-  
+
   const hasMutatedCall = [
     {
       reference: 'MutantApeYachtClub',
@@ -123,10 +162,10 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
   }
 
   React.useEffect(() => {
-    if(!hasMutated && tokenId) {
+    if(!hasMutated && tokenId && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
       handleHasMutatedCall();    
     }
-  }, [hasMutated, tokenId])
+  }, [hasMutated, tokenId, collectionId])
 
   const getMutantTokenIds = [
     {
@@ -153,13 +192,15 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
   }
   
   React.useEffect(() => {
-    if(hasMutated && hasMutated.length > 0 && tokenId && !mutantTokenIds) {
+    if(hasMutated && hasMutated.length > 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
       handleGetMutantTokenIds(); //will only call if the mutants exist
-    } else if (hasMutated && hasMutated.length === 0 && tokenId && !mutantTokenIds){
+    } else if (hasMutated && hasMutated.length === 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')){
       setMutantTokenIds([])
+    } else if (tokenId && !mutantTokenIds && collectionId === '0'){
+      setMutantTokenIds([String(tokenId)])
     }
-  }, [hasMutated, tokenId, mutantTokenIds])
-
+  }, [hasMutated, tokenId, mutantTokenIds, collectionId])
+  
   const getOwners = async () => {
     try {
       let getOwnersCall = []
@@ -186,7 +227,19 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
               { 
                 reference: "ownerOfCall", 
                 methodName: "ownerOf", 
-                methodParameters: [String(tokenId)] 
+                methodParameters: [collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)] 
+              },
+            ]
+          },
+          {
+            reference: 'BoredApe',
+            contractAddress: NFT_CONTRACTS[1],
+            abi: NFT_ABI,
+            calls: [
+              { 
+                reference: "ownerOfCall", 
+                methodName: "ownerOf", 
+                methodParameters: [collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)] 
               },
             ]
           },
@@ -198,7 +251,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
               { 
                 reference: "ownerOfCall", 
                 methodName: "ownerOf", 
-                methodParameters: [String(tokenId)] 
+                methodParameters: [collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)] 
               },
             ]
           },
@@ -208,6 +261,18 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
           {
             reference: 'KennelClub',
             contractAddress: NFT_CONTRACTS[3],
+            abi: NFT_ABI,
+            calls: [
+              { 
+                reference: "ownerOfCall", 
+                methodName: "ownerOf", 
+                methodParameters: [String(tokenId)] 
+              },
+            ]
+          },
+          {
+            reference: 'BoredApe',
+            contractAddress: NFT_CONTRACTS[1],
             abi: NFT_ABI,
             calls: [
               { 
@@ -234,13 +299,18 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
       const ownerData = await multicall.call(getOwnersCall)
       const kennelOwner = {
         owner: ownerData.results.KennelClub.callsReturnContext[0].returnValues[0],
-        tokenId: String(tokenId),
+        tokenId: collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId),
         type: "kennel"
       }
       const othersideOwner = {
         owner: ownerData.results.Otherside.callsReturnContext[0].returnValues[0],
-        tokenId: String(tokenId),
+        tokenId: collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId),
         type: "otherside",
+      }
+      const boredApeOwner = {
+        owner: ownerData.results.BoredApe.callsReturnContext[0].returnValues[0],
+        tokenId: collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId),
+        type: "ape",
       }
       let mutantOwner: Array<undefined>|Array<{owner: string, tokenId: string, type: string}> = []
       if(mutantTokenIds && mutantTokenIds?.length > 0){
@@ -255,12 +325,14 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
         setOwners([
           kennelOwner,
           othersideOwner,
+          boredApeOwner,
           ...mutantOwner
         ]);
       } else {
         setOwners([
           kennelOwner,
-          othersideOwner
+          othersideOwner,
+          boredApeOwner
         ]);
       }
     } catch (error) {
@@ -268,6 +340,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
     }
   }
 
+// console.log(owners)
   React.useEffect(() => {
     if(mutantTokenIds && tokenId && !owners) {
       getOwners();
@@ -285,6 +358,9 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
         if(i === 1){
           imageURL = imageURL.replace("ipfs://", "https://ipfs.io/ipfs/")
         }
+        if(i === 3){
+          imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
+        }
       }
       return {
         url: imageURL,
@@ -298,14 +374,16 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
     if(mutantTokenIds && mutantTokenIds?.length > 0){
       const mutantGetters = mutantTokenIds.map(i => getImageLinks(0, String(i)))
       images = await Promise.all([
-        getImageLinks(1, String(tokenId)),
-        getImageLinks(2, String(tokenId)),
+        getImageLinks(1, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+        getImageLinks(2, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+        getImageLinks(3, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
         ...mutantGetters,
       ])
     } else {
       images = await Promise.all([
         getImageLinks(1, String(tokenId)),
         getImageLinks(2, String(tokenId)),
+        getImageLinks(3, String(tokenId)),
       ])
     }    
     setImageLinks(images)
@@ -391,7 +469,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
     >
       <div style={{paddingBottom: "1rem"}}>
         Matched Items
-        ({metadata && !isLoading ? String(metadata.filter(i => i.owner !== undefined).length) : "-"})
+        ({metadata && !isLoading ? String(metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length) : "-"})
       </div>
 
       {isLoading && (
@@ -451,7 +529,10 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
       )}
 
       {metadata && !isLoading && (
-        metadata.filter(i => i.owner !== undefined).map((i, idx) => (
+        metadata
+        .filter(i => i.owner !== undefined)
+        .filter(i => collectionType[i.type] !== collectionId)
+        .map((i, idx) => (
           <div key={idx}>
             <div 
               style={{
@@ -553,7 +634,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
                 </span>
               </div>
             </div>
-            {idx + 1 !== metadata.filter(i => i.owner !== undefined).length && (
+            {idx + 1 !== metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length && (
               <div 
                 style={{
                   height: "1px", 
@@ -566,7 +647,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl }: ApeMatchedItemsProps) => {
         ))
       )}
 
-      {metadata && metadata.filter(i => i.owner !== undefined).length === 0 && !isLoading && (
+      {metadata && metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length === 0 && !isLoading && (
         <div>No Matched Items Found</div>
       )}
 

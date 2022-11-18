@@ -38,7 +38,7 @@ stories.add("ApeUnusedSerums", () => {
   return(
     <div>
       <ApeUnusedSerums 
-        tokenId='102'
+        tokenId='416'
         baseUrl={'bayc.snag-render.com'}
         theme={{
           maxWidth: "800px",
@@ -81,7 +81,8 @@ stories.add("ApeMatchedItems", () => {
         }}
       /> */}
       <ApeMatchedItems 
-        tokenId='2117'
+        tokenId='21678'
+        collectionId="0"
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
