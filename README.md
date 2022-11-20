@@ -17,7 +17,7 @@ Given a Bored Ape `tokenId`, the unused serums to create a Mutant Ape are displa
 
 ### 4) ApeMatchedItems
 
-Given a Bored Ape `tokenId`, if they exist, the accompanying MAYC, BAKC, and OTHR tokens are displayed.
+Given a `collectionId` and `tokenId`, if they exist, the accompanying BAYC, MAYC, BAKC, and/or OTHR tokens are displayed.
 
 #
 
@@ -112,7 +112,7 @@ export default function Page() {
 
 ### UnusedSerums 🧪
 
-The `tokenId` is **required**.
+The `tokenId` and `baseUrl` are **required**.
 
 The code snippet below will render the unused serums for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
@@ -120,21 +120,51 @@ The code snippet below will render the unused serums for `tokenId` `1` of the BA
 import { UnusedSerums } from "ape-stats-goerli";
 
 export default function Page() {
-  return <UnusedSerums tokenId={"1"} />;
+  return <UnusedSerums baseUrl="bayc.snag-render.com" tokenId={"1"} />;
 }
 ```
 
 ### MatchedItems 🖇️
 
-The `tokenId` is **required**.
+| Colletion ID | Description |
+| :----------- | :---------- |
+| `0`          | MAYC Token  |
+| `1`          | OTHR Token  |
+| `2`          | BAKC Token  |
+| `3`          | BAYC TOken  |
 
-The code snippet below will render, if they exist, the accompanying MAYC, BAKC, and OTHR tokens for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
+The `collectionId`, `tokenId`, and `baseUrl` are **required**.\
+**The given `tokenId` must exist.**
+
+The code snippet below will render the accompanying MAYC, BAKC, and BAYC tokens for `tokenId` `1290` of the OTHR collection used on Ethereum Mainnet.
 
 ```javascript
 import { MatchedItems } from "ape-stats-goerli";
 
 export default function Page() {
-  return <MatchedItems tokenId={"1"} />;
+  return (
+    <MatchedItems
+      baseUrl="bayc.snag-render.com"
+      tokenId={"1290"}
+      collectionId="1"
+    />
+  );
+}
+```
+
+The code snippet below will render the accompanying OTHR, BAKC, and BAYC tokens for `tokenId` `30006` of the MAYC collection used on Ethereum Mainnet.
+
+```javascript
+import { MatchedItems } from "ape-stats-goerli";
+
+export default function Page() {
+  return (
+    <MatchedItems
+      baseUrl="bayc.snag-render.com"
+      tokenId={"30006"}
+      collectionId="0"
+    />
+  );
 }
 ```
 
@@ -208,11 +238,14 @@ export default function Page() {
 | Parameter | Type     | Description                                   | Default     |
 | :-------- | :------- | :-------------------------------------------- | :---------- |
 | `tokenId` | `string` | **Required**. Valid `tokenId` for BAYC token. | `undefined` |
+| `baseUrl` | `string` | **Required**. Base URL for external link.     | `undefined` |
 | `theme`   | `object` | Inline CSS styling object.                    | `undefined` |
 
 ## Props for MatchedItems
 
-| Parameter | Type     | Description                                   | Default     |
-| :-------- | :------- | :-------------------------------------------- | :---------- |
-| `tokenId` | `string` | **Required**. Valid `tokenId` for BAYC token. | `undefined` |
-| `theme`   | `object` | Inline CSS styling object.                    | `undefined` |
+| Parameter      | Type     | Description                                                                       | Default     |
+| :------------- | :------- | :-------------------------------------------------------------------------------- | :---------- |
+| `tokenId`      | `string` | **Required**. Valid `tokenId` for BAYC token.                                     | `undefined` |
+| `baseUrl`      | `string` | **Required**. Base URL for external link.                                         | `undefined` |
+| `collectionId` | `string` | **Required**. Reference to determine what collection the given `tokenId` is from. | `undefined` |
+| `theme`        | `object` | Inline CSS styling object.                                                        | `undefined` |
