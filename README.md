@@ -30,13 +30,13 @@ Installed with npm or yarn.
 If [`ethers`](https://www.npmjs.com/package/ethers) is not in your project, install with [`ethers`](https://www.npmjs.com/package/ethers) as well.
 
 ```bash
-  npm install ape-package ethers
+  npm install ape-stats-goerli ethers
 ```
 
 or
 
 ```bash
-  yarn add ape-package ethers
+  yarn add ape-stats-goerli ethers
 ```
 
 ## Usage
@@ -68,37 +68,79 @@ export default function Page() {
 }
 ```
 
-### ApeUnusedSerums 🧪
+### useStakedAmount 📊
 
-The `tokenId` and `baseUrl` is **required**.
+#### Currently only Goërli is supported. Mainnet support will be added when the staking contract address is made available.
+
+The params go as follows: `isTestnet: boolean`, `poolId: string,` `tokenId: string`, `stakersAddress: string` \
+\
+Just like `ApeStatBar` , `stakersAddress` is **required** if `poolId` is 0. \
+And `tokenId` is **required** if `poolId` is 1, 2 or 3 \
+\
+_Refer to table above for `poolId` reference._ \
+\
+The code snippet below will return the amount of staked ApeCoin for `stakersAddress` `0x9B6cEd7dc2F47Ae3e30E6162193BD9CE78643A63` on Goërli. \
+_Enter `tokenId` as empty string if `poolId` is 0._
+
+```javascript
+import { useStakedAmount } from "ape-stats-goerli";
+
+export default function Page() {
+  const { stakedAmount } = useStakedAmount(
+    true,
+    "0",
+    "",
+    "0x9B6cEd7dc2F47Ae3e30E6162193BD9CE78643A63"
+  );
+
+  return <div>{stakedAmount}</div>;
+}
+```
+
+The code snippet below will return the amount of staked ApeCoin for the BAYC pool for `tokenId` `10` on Goërli. \
+_Omit `stakersAddress` if `poolId` is 1, 2, or 3._
+
+```javascript
+import { useStakedAmount } from "ape-stats-goerli";
+
+export default function Page() {
+  const { stakedAmount } = useStakedAmount(true, "1", "10");
+
+  return <div>{stakedAmount}</div>;
+}
+```
+
+### UnusedSerums 🧪
+
+The `tokenId` is **required**.
 
 The code snippet below will render the unused serums for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
 ```javascript
-import { ApeUnusedSerums } from "ape-stats-goerli";
+import { UnusedSerums } from "ape-stats-goerli";
 
 export default function Page() {
-  return <ApeUnusedSerums baseUrl={"apecoinmarketplace.com"} tokenId={"1"} />;
+  return <UnusedSerums tokenId={"1"} />;
 }
 ```
 
-### ApeMatchedItems 🖇️
+### MatchedItems 🖇️
 
-The `tokenId` and `baseUrl` is **required**.
+The `tokenId` is **required**.
 
 The code snippet below will render, if they exist, the accompanying MAYC, BAKC, and OTHR tokens for `tokenId` `1` of the BAYC collection used on Ethereum Mainnet.
 
 ```javascript
-import { ApeMatchedItems } from "ape-stats-goerli";
+import { MatchedItems } from "ape-stats-goerli";
 
 export default function Page() {
-  return <ApeMatchedItems baseUrl={"apecoinmarketplace.com"} tokenId={"1"} />;
+  return <MatchedItems tokenId={"1"} />;
 }
 ```
 
 ## Theming
 
-A `theme` object can be added as a prop to `ApeStatBar`, `ApeUnusedSerums`, and `ApeMatchedItems` for custom styling. \
+A `theme` object can be added as a prop to `ApeStatBar`, `UnusedSerums`, and `MatchedItems` for custom styling. \
 \
 Treat this object as you would inline css styling. \
 \
@@ -114,25 +156,21 @@ If any of the default styling given to certain parts of the component is undesir
 | `rateFontSize`            | Font size of the 24hr rate.                       | `.6rem`     |
 | `linkFontSize`            | Font size of the external link.                   | `60%`       |
 
-#### Exceptions for ApeUnusedSerums
+#### Exceptions for UnusedSerums
 
 | Theme Key                 | Description                              | Default            |
 | :------------------------ | :--------------------------------------- | :----------------- |
 | `dividerColor`            | Color of dividing line.                  | `rgb(55, 59, 66)`  |
 | `skeletonBackgroundColor` | Color of the loading placeholder.        | `#DDDBDD`          |
 | `buyButtonColor`          | Font and border color of the buy button. | `rgb(85, 189, 82)` |
-| `itemsGap`                | Vertical gap between items               | `0.5rem`           |
-| `imageGap`                | Spacing between image and title.         | `0.5rem`           |
 
-#### Exceptions for ApeMatchedItems
+#### Exceptions for MatchedItems
 
 | Theme Key                 | Description                                  | Default              |
 | :------------------------ | :------------------------------------------- | :------------------- |
 | `dividerColor`            | Color of dividing line.                      | `rgb(55, 59, 66)`    |
 | `skeletonBackgroundColor` | Color of the loading placeholder.            | `#DDDBDD`            |
 | `ownedByColor`            | Font color of the text that says "Owned by". | `rgb(140, 149, 156)` |
-| `itemsGap`                | Vertical gap between items                   | `0.5rem`             |
-| `imageGap`                | Spacing between image and title.             | `0.5rem`             |
 
 ```javascript
 import { ApeStatBar } from 'ape-stats-goerli'
@@ -165,14 +203,14 @@ export default function Page() {
 | `theme`          | `object`  | Inline CSS styling object.                                     | `undefined` |
 | `isTestnet`      | `boolean` | Boolean used for choose which chain to get staking data from.  | `true`      |
 
-## Props for ApeUnusedSerums
+## Props for UnusedSerums
 
 | Parameter | Type     | Description                                   | Default     |
 | :-------- | :------- | :-------------------------------------------- | :---------- |
 | `tokenId` | `string` | **Required**. Valid `tokenId` for BAYC token. | `undefined` |
 | `theme`   | `object` | Inline CSS styling object.                    | `undefined` |
 
-## Props for ApeMatchedItems
+## Props for MatchedItems
 
 | Parameter | Type     | Description                                   | Default     |
 | :-------- | :------- | :-------------------------------------------- | :---------- |
