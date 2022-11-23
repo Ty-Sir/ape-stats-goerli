@@ -115,6 +115,15 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
   const [imageLinks, setImageLinks] = React.useState<undefined|Array<{url: string, tokenId: string, type: string}>>(undefined);
   const [owners, setOwners] = React.useState<undefined|Array<{owner: string, tokenId: string, type: string}>>(undefined)
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
+  const [isError, setIsError] = React.useState<Boolean>(false);
+
+  React.useEffect(() => {
+    if(collectionId === '0' && Number(tokenId) < 10000){
+      setIsError(true);
+      setIsLoading(false);
+    }
+  }, [])
+  
 
   const hasMutatedCall = [
     {
@@ -203,7 +212,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
   
   const getOwners = async () => {
     try {
-      let getOwnersCall = []
+      let getOwnersCall = [];
       if(mutantTokenIds && mutantTokenIds?.length > 0){
         const mutantCalls = mutantTokenIds.map((i, idx) => (
           { 
@@ -322,12 +331,20 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
           }
         ))
         mutantOwner = ownerOf
-        setOwners([
-          kennelOwner,
-          othersideOwner,
-          boredApeOwner,
-          ...mutantOwner
-        ]);
+        if(collectionId === '0'){
+          setOwners([
+            kennelOwner,
+            boredApeOwner,
+            ...mutantOwner
+          ]);
+        }else{
+          setOwners([
+            kennelOwner,
+            othersideOwner,
+            boredApeOwner,
+            ...mutantOwner
+          ]);
+        }
       } else {
         setOwners([
           kennelOwner,
@@ -340,7 +357,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
     }
   }
 
-// console.log(owners)
+
   React.useEffect(() => {
     if(mutantTokenIds && tokenId && !owners) {
       getOwners();
@@ -348,37 +365,45 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
   }, [owners, tokenId, mutantTokenIds])
 
   const getImageLinks = async (i: number, id: string) => {
-      const res = await fetch(tokenURIs[i](String(id)))
-      const data = await res.json();
-      let imageURL = data.image;
-      if(imageURL.includes("ipfs://")){
-        if(i === 0){
-          imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
-        }
-        if(i === 1){
-          imageURL = imageURL.replace("ipfs://", "https://ipfs.io/ipfs/")
-        }
-        if(i === 3){
-          imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
-        }
+    const res = await fetch(tokenURIs[i](String(id)))
+    const data = await res.json();
+    let imageURL = data.image;
+    if(imageURL.includes("ipfs://")){
+      if(i === 0){
+        imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
       }
-      return {
-        url: imageURL,
-        tokenId: String(id),
-        type: linkReference[i]
-      };
+      if(i === 1){
+        imageURL = imageURL.replace("ipfs://", "https://ipfs.io/ipfs/")
+      }
+      if(i === 3){
+        imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
+      }
+    }
+    return {
+      url: imageURL,
+      tokenId: String(id),
+      type: linkReference[i]
+    };
   }
 
   const getImages = async () => {
     let images = [];
     if(mutantTokenIds && mutantTokenIds?.length > 0){
       const mutantGetters = mutantTokenIds.map(i => getImageLinks(0, String(i)))
-      images = await Promise.all([
-        getImageLinks(1, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-        getImageLinks(2, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-        getImageLinks(3, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-        ...mutantGetters,
-      ])
+      if(collectionId === '0'){
+        images = await Promise.all([
+          getImageLinks(1, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+          getImageLinks(3, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+          ...mutantGetters,
+        ])
+      }else{
+        images = await Promise.all([
+          getImageLinks(1, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+          getImageLinks(2, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+          getImageLinks(3, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
+          ...mutantGetters,
+        ])
+      }
     } else {
       images = await Promise.all([
         getImageLinks(1, String(tokenId)),
@@ -524,6 +549,47 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
                 backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
               }}
             />
+          </div>
+        </div>
+      )}
+
+      {isError && (
+        <div 
+          style={{
+            padding: ".5rem 0"
+          }}
+        >
+          <div 
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "1rem"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center"
+              }}
+            >
+              {tokenTypeIcon['mutant']}
+              <div
+                style={{
+                  paddingLeft: theme?.imageGap ? theme?.imageGap :  ".5rem",
+                  animation: 'fadeIn .75s'
+                }}
+              >
+                No Items Found
+              </div>
+            </div>
+            <div
+              style={{
+                color: theme?.ownedByColor ? theme?.ownedByColor : "rgb(140, 149, 156)"
+              }}
+            >
+              -
+            </div>
           </div>
         </div>
       )}

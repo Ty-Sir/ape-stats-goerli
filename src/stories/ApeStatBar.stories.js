@@ -39,7 +39,7 @@ stories.add("ApeUnusedSerums", () => {
     <div>
       <ApeUnusedSerums 
         tokenId='416'
-        baseUrl={'bayc.snag-render.com'}
+        baseUrl={'apecoinmarketplace.com'}
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
@@ -81,8 +81,8 @@ stories.add("ApeMatchedItems", () => {
         }}
       /> */}
       <ApeMatchedItems 
-        tokenId='21678'
-        collectionId="0"
+        tokenId='1290'
+        collectionId="1"
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
@@ -93,7 +93,7 @@ stories.add("ApeMatchedItems", () => {
           padding: "1.5rem",
           imageGap: "2rem"
         }}
-        baseUrl="bayc.snag-render.com"
+        baseUrl="apecoinmarketplace.com"
       />
     </div>
   )
