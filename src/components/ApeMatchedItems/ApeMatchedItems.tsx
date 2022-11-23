@@ -171,7 +171,10 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
   }
 
   React.useEffect(() => {
-    if(!hasMutated && tokenId && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
+    if(collectionId === '0' && Number(tokenId) < 10000){
+      setIsError(true);
+      setIsLoading(false);
+    } else if(!hasMutated && tokenId && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
       handleHasMutatedCall();    
     }
   }, [hasMutated, tokenId, collectionId])
@@ -201,7 +204,10 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
   }
   
   React.useEffect(() => {
-    if(hasMutated && hasMutated.length > 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
+    if(collectionId === '0' && Number(tokenId) < 10000){
+      setIsError(true);
+      setIsLoading(false);
+    } else if(hasMutated && hasMutated.length > 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
       handleGetMutantTokenIds(); //will only call if the mutants exist
     } else if (hasMutated && hasMutated.length === 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')){
       setMutantTokenIds([])

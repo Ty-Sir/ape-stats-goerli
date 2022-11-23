@@ -68,21 +68,10 @@ stories.add("Hook", () => (<Demo />))
 stories.add("ApeMatchedItems", () => {
   return(
     <div>
-      {/* <ApeMatchedItems 
-        tokenId='102'
-        theme={{
-          maxWidth: "800px",
-          margin: '0 auto 2rem auto',
-          borderRadius: "10px",
-          backgroundColor: "#000000",
-          border: "1px solid #45494D",
-          color: "white",
-          padding: "1.5rem",
-        }}
-      /> */}
       <ApeMatchedItems 
         tokenId='1290'
-        collectionId="1"
+        baseUrl="bayc.snag-render.com"
+        collectionId={"2"}
         theme={{
           maxWidth: "800px",
           margin: '0 auto 2rem auto',
@@ -91,9 +80,53 @@ stories.add("ApeMatchedItems", () => {
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
-          imageGap: "2rem"
+          imageGap: "1rem"
         }}
-        baseUrl="apecoinmarketplace.com"
+      />
+      <ApeMatchedItems 
+        tokenId='9999'
+        baseUrl="bayc.snag-render.com"
+        collectionId={"0"}
+        theme={{
+          maxWidth: "800px",
+          margin: '0 auto 2rem auto',
+          borderRadius: "10px",
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
+          imageGap: "1rem"
+        }}
+      />
+      <ApeMatchedItems 
+        tokenId='30001'
+        baseUrl="bayc.snag-render.com"
+        collectionId={"0"}
+        theme={{
+          maxWidth: "800px",
+          margin: '0 auto 2rem auto',
+          borderRadius: "10px",
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
+          imageGap: "1rem"
+        }}
+      />
+      <ApeMatchedItems 
+        tokenId='26634'
+        baseUrl="bayc.snag-render.com"
+        collectionId={"0"}
+        theme={{
+          maxWidth: "800px",
+          margin: '0 auto 2rem auto',
+          borderRadius: "10px",
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
+          imageGap: "1rem"
+        }}
       />
     </div>
   )
