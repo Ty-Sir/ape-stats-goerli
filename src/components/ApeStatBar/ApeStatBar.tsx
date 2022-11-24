@@ -15,7 +15,7 @@ import {
 import { ApeStatBarProps } from "./ApeStatBar.types";
 import { getPrettyValue, round } from "../../utils/formatters";
 
-const STAKING_LIVE_TIMESTAMP_APPROX = 1669429761;
+const STAKING_LIVE_TIMESTAMP_APPROX = 1670308437;
 
 const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
 
