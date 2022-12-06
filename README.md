@@ -231,7 +231,7 @@ export default function Page() {
 | `tokenId`        | `string`  | **Required if poolId is NOT 0**. Valid `tokenId` for NFT.      | `undefined` |
 | `poolId`         | `string`  | Pool ID to determine which staking pool to retrieve data from. | `'0'`       |
 | `theme`          | `object`  | Inline CSS styling object.                                     | `undefined` |
-| `isTestnet`      | `boolean` | Boolean used for choose which chain to get staking data from.  | `true`      |
+| `isTestnet`      | `boolean` | Boolean used for choose which chain to get staking data from.  | `false`     |
 
 ## Props for UnusedSerums
 

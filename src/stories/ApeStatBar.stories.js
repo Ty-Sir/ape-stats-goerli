@@ -1,133 +1,125 @@
-import { React } from "react"
-import { storiesOf } from "@storybook/react"
-import { ApeStatBar, ApeUnusedSerums, ApeMatchedItems } from "../index"
+import { React } from "react";
+import { storiesOf } from "@storybook/react";
+import { ApeStatBar, ApeUnusedSerums, ApeMatchedItems } from "../index";
 import { useStakedAmount } from "../index";
 
 const stories = storiesOf("Ape Components", module);
 
-stories.add('Ape Stat Bar', () => {
-  return(
+stories.add("Ape Stat Bar", () => {
+  return (
     <div>
-      <ApeStatBar 
-        stakersAddress="0x47Ef3bF350F70724F2fd34206990cdE9C3A6B6F0"
-        isTestnet={true}
-      />
-      <ApeStatBar 
-        tokenId={'71'} 
+      <ApeStatBar stakersAddress="0x2ae7ac4d95e1bfe1172fae1c8efe9097119216cf" />
+      <ApeStatBar
+        tokenId={"71"}
         poolId="1"
         isTestnet={false}
         theme={{
-          skeletonBackgroundColor: "pink"
+          skeletonBackgroundColor: "pink",
         }}
       />
-      <ApeStatBar 
-        tokenId={'75'} 
-        poolId="2"
-        isTestnet={true}
-      />
-      <ApeStatBar 
-        tokenId={'65'} 
-        poolId="3"
-        isTestnet={true}
-      />
+      <ApeStatBar tokenId={"7970"} poolId="2" />
+      <ApeStatBar tokenId={"8622"} poolId="3" />
     </div>
-  )
-})
+  );
+});
 
 stories.add("ApeUnusedSerums", () => {
-  return(
+  return (
     <div>
-      <ApeUnusedSerums 
-        tokenId='416'
-        baseUrl={'apecoinmarketplace.com'}
+      <ApeUnusedSerums
+        tokenId="416"
+        baseUrl={"apecoinmarketplace.com"}
         theme={{
           maxWidth: "800px",
-          margin: '0 auto 2rem auto',
+          margin: "0 auto 2rem auto",
           borderRadius: "10px",
           backgroundColor: "#000000",
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
           skeletonBackgroundColor: "pink",
-          imageGap: "2rem"
+          imageGap: "2rem",
         }}
       />
     </div>
-  )
-})
+  );
+});
 
 const Demo = () => {
-  const { stakedAmount } = useStakedAmount(true, '1', '71')
-  return(
-    <div>{stakedAmount}</div>
-  )
-}
+  const { stakedAmount } = useStakedAmount(
+    false,
+    "0",
+    "",
+    "0x2ae7ac4d95e1bfe1172fae1c8efe9097119216cf"
+  );
+  return <div>{stakedAmount}</div>;
+};
 
-stories.add("Hook", () => (<Demo />))
+stories.add("Hook", () => <Demo />);
 
 stories.add("ApeMatchedItems", () => {
-  return(
+  return (
     <div>
-      <ApeMatchedItems 
-        tokenId='1290'
+      <ApeMatchedItems
+        tokenId="1290"
         baseUrl="bayc.snag-render.com"
         collectionId={"2"}
         theme={{
           maxWidth: "800px",
-          margin: '0 auto 2rem auto',
+          margin: "0 auto 2rem auto",
           borderRadius: "10px",
           backgroundColor: "#000000",
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
-          imageGap: "1rem"
+          imageGap: "1rem",
         }}
       />
-      <ApeMatchedItems 
-        tokenId='9999'
+      <ApeMatchedItems
+        tokenId="9999"
         baseUrl="bayc.snag-render.com"
         collectionId={"0"}
         theme={{
           maxWidth: "800px",
-          margin: '0 auto 2rem auto',
+          margin: "0 auto 2rem auto",
           borderRadius: "10px",
           backgroundColor: "#000000",
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
-          imageGap: "1rem"
+          imageGap: "1rem",
         }}
       />
-      <ApeMatchedItems 
-        tokenId='30001'
+      <ApeMatchedItems
+        tokenId="30001"
         baseUrl="bayc.snag-render.com"
         collectionId={"0"}
         theme={{
           maxWidth: "800px",
-          margin: '0 auto 2rem auto',
+          margin: "0 auto 2rem auto",
           borderRadius: "10px",
           backgroundColor: "#000000",
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
-          imageGap: "1rem"
+          imageGap: "1rem",
         }}
       />
-      <ApeMatchedItems 
-        tokenId='26634'
+      <ApeMatchedItems
+        tokenId="26634"
         baseUrl="bayc.snag-render.com"
         collectionId={"0"}
         theme={{
           maxWidth: "800px",
-          margin: '0 auto 2rem auto',
+          margin: "0 auto 2rem auto",
           borderRadius: "10px",
           backgroundColor: "#000000",
           border: "1px solid #45494D",
           color: "white",
           padding: "1.5rem",
-          imageGap: "1rem"
+          imageGap: "1rem",
         }}
       />
     </div>
-  )
-})
+  );
+});

@@ -17,7 +17,11 @@ import { getPrettyValue, round } from "../../utils/formatters";
 
 const STAKING_LIVE_TIMESTAMP_APPROX = 1670308437;
 
-const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+const goerliProvider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+
+const goerliMulticall = new Multicall({ ethersProvider: goerliProvider, tryAggregate: true });
+
+const provider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
 
 const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
 
@@ -49,7 +53,7 @@ const poolTitle: string[] = [
   'APE/BAKC'
 ]
 
-const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = true }: ApeStatBarProps) => {
+const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = false }: ApeStatBarProps) => {
   const [stakedAmount, setStakedAmount] = React.useState<undefined|string>(undefined);
   const [stakeCap, setStakeCap] = React.useState<undefined|string>(undefined);
   const [unclaimedApeCoin, setUnclaimedApeCoin] = React.useState<undefined|string>(undefined);
@@ -73,7 +77,7 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
 
   const handleOwnerOf = async () => {
     try {
-      const result = await multicall.call(nftCallContext)
+      const result = isTestnet ? await goerliMulticall.call(nftCallContext) : await multicall.call(nftCallContext)
       const ownersAddress = result?.results?.NFTContract?.callsReturnContext[0]?.returnValues[0]
       setOwnerOf(ownersAddress)
     } catch (error) {
@@ -109,7 +113,7 @@ const ApeStatBar = ({ theme, tokenId, stakersAddress, poolId = '0', isTestnet = 
 
   const handleMulitcall = async () => {
     try {
-      const result = await multicall.call(stakingCallContext)
+      const result = isTestnet ? await goerliMulticall.call(stakingCallContext) : await multicall.call(stakingCallContext)
       let id = !tokenId ? "0" : String(tokenId)
       const tokenIdHex = ethers.utils.hexlify(Number(id))
       const returnedStakes = result?.results?.ApeCoinStaking?.callsReturnContext[0]?.returnValues;
