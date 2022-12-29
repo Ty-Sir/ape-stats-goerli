@@ -586,7 +586,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
                   animation: 'fadeIn .75s'
                 }}
               >
-                No Items Found
+                {collectionId === '0' && Number(tokenId) < 10000 ? "Matched Items unavailable for Mutants 0 - 9,999" : "No Items Found"}
               </div>
             </div>
             <div

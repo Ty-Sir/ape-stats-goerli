@@ -61,9 +61,9 @@ stories.add("ApeMatchedItems", () => {
   return (
     <div>
       <ApeMatchedItems
-        tokenId="1290"
+        tokenId="7904"
         baseUrl="bayc.snag-render.com"
-        collectionId={"2"}
+        collectionId={"0"}
         theme={{
           maxWidth: "800px",
           margin: "0 auto 2rem auto",
@@ -75,7 +75,7 @@ stories.add("ApeMatchedItems", () => {
           imageGap: "1rem",
         }}
       />
-      <ApeMatchedItems
+      {/* <ApeMatchedItems
         tokenId="9999"
         baseUrl="bayc.snag-render.com"
         collectionId={"0"}
@@ -119,7 +119,7 @@ stories.add("ApeMatchedItems", () => {
           padding: "1.5rem",
           imageGap: "1rem",
         }}
-      />
+      /> */}
     </div>
   );
 });
