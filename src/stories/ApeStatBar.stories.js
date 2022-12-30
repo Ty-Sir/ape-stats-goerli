@@ -46,12 +46,7 @@ stories.add("ApeUnusedSerums", () => {
 });
 
 const Demo = () => {
-  const { stakedAmount } = useStakedAmount(
-    false,
-    "0",
-    "",
-    "0x2ae7ac4d95e1bfe1172fae1c8efe9097119216cf"
-  );
+  const { stakedAmount } = useStakedAmount(false, "0", "", "0x2ae7ac4d95e1bfe1172fae1c8efe9097119216cf");
   return <div>{stakedAmount}</div>;
 };
 
@@ -61,9 +56,9 @@ stories.add("ApeMatchedItems", () => {
   return (
     <div>
       <ApeMatchedItems
-        tokenId="7904"
+        tokenId="3264"
         baseUrl="bayc.snag-render.com"
-        collectionId={"0"}
+        collectionId={"2"}
         theme={{
           maxWidth: "800px",
           margin: "0 auto 2rem auto",
@@ -75,7 +70,7 @@ stories.add("ApeMatchedItems", () => {
           imageGap: "1rem",
         }}
       />
-      {/* <ApeMatchedItems
+      <ApeMatchedItems
         tokenId="9999"
         baseUrl="bayc.snag-render.com"
         collectionId={"0"}
@@ -106,9 +101,9 @@ stories.add("ApeMatchedItems", () => {
         }}
       />
       <ApeMatchedItems
-        tokenId="26634"
+        tokenId="0"
         baseUrl="bayc.snag-render.com"
-        collectionId={"0"}
+        collectionId={"1"}
         theme={{
           maxWidth: "800px",
           margin: "0 auto 2rem auto",
@@ -119,7 +114,7 @@ stories.add("ApeMatchedItems", () => {
           padding: "1.5rem",
           imageGap: "1rem",
         }}
-      /> */}
+      />
     </div>
   );
 });

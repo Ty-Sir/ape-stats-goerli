@@ -51,6 +51,7 @@
     "react-dom": "^18.2.0",
     "rollup": "^2.38.4",
     "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-dotenv": "^0.4.1",
     "rollup-plugin-dts": "^4.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.0",

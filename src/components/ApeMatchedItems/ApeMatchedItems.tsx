@@ -18,36 +18,6 @@ const serumTypes: string[] = [
   '69'
 ]
 
-const getMutantURI = (tokenId: string) => {
-  return `https://boredapeyachtclub.com/api/mutants/${tokenId}`
-}
-
-const getOthersideURI = (tokenId: string) => {
-  return `https://api.otherside.xyz/lands/${tokenId}`
-}
-
-const getKennelURI = (tokenId: string) => {
-  return `https://gateway.ipfs.io/ipfs/QmTDcCdt3yb6mZitzWBmQr65AW6Wska295Dg9nbEYpSUDR/${tokenId}`
-}
-
-const getApeURI = (tokenId: string) => {
-  return `https://gateway.ipfs.io/ipfs/QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/${tokenId}`
-}
-
-const tokenURIs: ((tokenId: string) => string)[] = [
-  getMutantURI,
-  getKennelURI,
-  getOthersideURI,
-  getApeURI
-]
-
-const linkReference: string[] = [
-  'mutant',
-  'kennel',
-  'otherside',
-  'ape'
-]
-
 interface ITokenTypeString<TValue> {
   [id: string]: TValue;
 }
@@ -87,16 +57,16 @@ const tokenTypeIcon: ITokenTypeIcon<any> = {
   ape: <BoredApeIcon />
 }
 
-const maxIPFSCallAmount = 5;
+const maxUrlCallAmount = 5;
 
 const getTokenIdFromMutantId = (mutantId: string) => {
-  if(apeIdByMegaMutantId[mutantId] !== undefined){
+  if (apeIdByMegaMutantId[mutantId] !== undefined) {
     return apeIdByMegaMutantId[mutantId]
   }
   return (Math.floor((Number(mutantId) - 10000) / 2)).toString()
 }
 
-//collectionId
+//@dev collectionId
 //"0": mutant token
 //"1": otherside token
 //"2": kennel token
@@ -109,21 +79,19 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
     kennel: `https://${baseUrl}/collections/0xba30e5f9bb24caa003e9f2f0497ad287fdf95623/tokens/`,
     ape: `https://${baseUrl}/collections/0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D/tokens/`,
   }
-  const [hasMutated, setHasMutated] = React.useState<undefined|Array<{reference: string, methodName: string, methodParameters: Array<string>}>>(undefined);
-  const [mutantTokenIds, setMutantTokenIds] = React.useState<undefined|Array<string>>(undefined);
-  const [metadata, setMetadata] = React.useState<undefined|Array<any>|Array<{owner: string, tokenId: string, type: string, url: string, loaded: boolean, isError: boolean, ipfsCallCount: number}>>(undefined);
-  const [imageLinks, setImageLinks] = React.useState<undefined|Array<{url: string, tokenId: string, type: string}>>(undefined);
-  const [owners, setOwners] = React.useState<undefined|Array<{owner: string, tokenId: string, type: string}>>(undefined)
+  const [hasMutated, setHasMutated] = React.useState<undefined | Array<{ reference: string, methodName: string, methodParameters: Array<string> }>>(undefined);
+  const [mutantTokenIds, setMutantTokenIds] = React.useState<undefined | Array<string>>(undefined);
+  const [metadata, setMetadata] = React.useState<undefined | Array<any> | Array<{ owner: string, tokenId: string, type: string, url: string, loaded: boolean, isError: boolean, urlCallCount: number }>>(undefined);
   const [isLoading, setIsLoading] = React.useState<Boolean>(true);
   const [isError, setIsError] = React.useState<Boolean>(false);
 
   React.useEffect(() => {
-    if(collectionId === '0' && Number(tokenId) < 10000){
+    if (collectionId === '0' && Number(tokenId) < 10000) {
       setIsError(true);
       setIsLoading(false);
     }
   }, [])
-  
+
 
   const hasMutatedCall = [
     {
@@ -131,22 +99,22 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       contractAddress: MAYC,
       abi: MAYC_ABI,
       calls: [
-        { 
-          reference: "hasApeBeenMutatedWithTypeCall0", 
-          methodName: "hasApeBeenMutatedWithType", 
-          methodParameters: [serumTypes[0], String(tokenId)] 
+        {
+          reference: "hasApeBeenMutatedWithTypeCall0",
+          methodName: "hasApeBeenMutatedWithType",
+          methodParameters: [serumTypes[0], String(tokenId)]
         },
-        { 
-          reference: "hasApeBeenMutatedWithTypeCall1", 
-          methodName: "hasApeBeenMutatedWithType", 
-          methodParameters: [serumTypes[1], String(tokenId)] 
+        {
+          reference: "hasApeBeenMutatedWithTypeCall1",
+          methodName: "hasApeBeenMutatedWithType",
+          methodParameters: [serumTypes[1], String(tokenId)]
         },
-        { 
-          reference: "hasApeBeenMutatedWithTypeCall69", 
-          methodName: "hasApeBeenMutatedWithType", 
-          methodParameters: [serumTypes[2], String(tokenId)] 
+        {
+          reference: "hasApeBeenMutatedWithTypeCall69",
+          methodName: "hasApeBeenMutatedWithType",
+          methodParameters: [serumTypes[2], String(tokenId)]
         },
-    ]
+      ]
     },
   ];
 
@@ -156,7 +124,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       let hasMutatedArray = [];
       for (let i = 0; i < 3; i++) {
         const hasUsed = result.results.MutantApeYachtClub.callsReturnContext[i].returnValues[0];
-        if(hasUsed){
+        if (hasUsed) {
           hasMutatedArray.push({
             reference: `getMutantIdForApeAndSerumCombinationCall${i}`,
             methodName: "getMutantIdForApeAndSerumCombination",
@@ -167,15 +135,17 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       setHasMutated(hasMutatedArray)
     } catch (error) {
       console.log(error)
+      setIsError(true)
+      setIsLoading(false)
     }
   }
 
   React.useEffect(() => {
-    if(collectionId === '0' && Number(tokenId) < 10000){
+    if (collectionId === '0' && Number(tokenId) < 10000) {
       setIsError(true);
       setIsLoading(false);
-    } else if(!hasMutated && tokenId && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
-      handleHasMutatedCall();    
+    } else if (!hasMutated && tokenId && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
+      handleHasMutatedCall();
     }
   }, [hasMutated, tokenId, collectionId])
 
@@ -200,262 +170,133 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       setMutantTokenIds(mutantIds)
     } catch (error) {
       console.log(error)
+      setIsError(true)
+      setIsLoading(false)
     }
   }
-  
+
   React.useEffect(() => {
-    if(collectionId === '0' && Number(tokenId) < 10000){
+    if (collectionId === '0' && Number(tokenId) < 10000) {
       setIsError(true);
       setIsLoading(false);
-    } else if(hasMutated && hasMutated.length > 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
+    } else if (hasMutated && hasMutated.length > 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
       handleGetMutantTokenIds(); //will only call if the mutants exist
-    } else if (hasMutated && hasMutated.length === 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')){
+    } else if (hasMutated && hasMutated.length === 0 && tokenId && !mutantTokenIds && (collectionId === '3' || collectionId === '2' || collectionId === '1')) {
       setMutantTokenIds([])
-    } else if (tokenId && !mutantTokenIds && collectionId === '0'){
+    } else if (tokenId && !mutantTokenIds && collectionId === '0') {
       setMutantTokenIds([String(tokenId)])
     }
   }, [hasMutated, tokenId, mutantTokenIds, collectionId])
-  
-  const getOwners = async () => {
+
+  const getMetadata = async () => {
     try {
-      let getOwnersCall = [];
-      if(mutantTokenIds && mutantTokenIds?.length > 0){
-        const mutantCalls = mutantTokenIds.map((i, idx) => (
-          { 
-            reference: `ownerOfCall${idx}`, 
-            methodName: "ownerOf", 
-            methodParameters: [String(i)] 
-          }
-        ))
-        getOwnersCall = [
-          {
-            reference: 'Mutant',
-            contractAddress: NFT_CONTRACTS[2],
-            abi: NFT_ABI,
-            calls: mutantCalls
-          },
-          {
-            reference: 'KennelClub',
-            contractAddress: NFT_CONTRACTS[3],
-            abi: NFT_ABI,
-            calls: [
-              { 
-                reference: "ownerOfCall", 
-                methodName: "ownerOf", 
-                methodParameters: [collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)] 
-              },
-            ]
-          },
-          {
-            reference: 'BoredApe',
-            contractAddress: NFT_CONTRACTS[1],
-            abi: NFT_ABI,
-            calls: [
-              { 
-                reference: "ownerOfCall", 
-                methodName: "ownerOf", 
-                methodParameters: [collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)] 
-              },
-            ]
-          },
-          {
-            reference: 'Otherside',
-            contractAddress: OTHERSIDE,
-            abi: NFT_ABI,
-            calls: [
-              { 
-                reference: "ownerOfCall", 
-                methodName: "ownerOf", 
-                methodParameters: [collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)] 
-              },
-            ]
-          },
-        ];
-      } else {        
-        getOwnersCall = [
-          {
-            reference: 'KennelClub',
-            contractAddress: NFT_CONTRACTS[3],
-            abi: NFT_ABI,
-            calls: [
-              { 
-                reference: "ownerOfCall", 
-                methodName: "ownerOf", 
-                methodParameters: [String(tokenId)] 
-              },
-            ]
-          },
-          {
-            reference: 'BoredApe',
-            contractAddress: NFT_CONTRACTS[1],
-            abi: NFT_ABI,
-            calls: [
-              { 
-                reference: "ownerOfCall", 
-                methodName: "ownerOf", 
-                methodParameters: [String(tokenId)] 
-              },
-            ]
-          },
-          {
-            reference: 'Otherside',
-            contractAddress: OTHERSIDE,
-            abi: NFT_ABI,
-            calls: [
-              { 
-                reference: "ownerOfCall", 
-                methodName: "ownerOf", 
-                methodParameters: [String(tokenId)] 
-              },
-            ]
-          },
-        ];
-      }
-      const ownerData = await multicall.call(getOwnersCall)
-      const kennelOwner = {
-        owner: ownerData.results.KennelClub.callsReturnContext[0].returnValues[0],
-        tokenId: collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId),
-        type: "kennel"
-      }
-      const othersideOwner = {
-        owner: ownerData.results.Otherside.callsReturnContext[0].returnValues[0],
-        tokenId: collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId),
-        type: "otherside",
-      }
-      const boredApeOwner = {
-        owner: ownerData.results.BoredApe.callsReturnContext[0].returnValues[0],
-        tokenId: collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId),
-        type: "ape",
-      }
-      let mutantOwner: Array<undefined>|Array<{owner: string, tokenId: string, type: string}> = []
-      if(mutantTokenIds && mutantTokenIds?.length > 0){
-        const ownerOf = mutantTokenIds.map((i, idx) => (
-          { 
-            owner: ownerData.results.Mutant.callsReturnContext[idx].returnValues[0], 
-            tokenId: String(i), 
-            type: "mutant"
-          }
-        ))
-        mutantOwner = ownerOf
-        if(collectionId === '0'){
-          setOwners([
-            kennelOwner,
-            boredApeOwner,
-            ...mutantOwner
-          ]);
-        }else{
-          setOwners([
-            kennelOwner,
-            othersideOwner,
-            boredApeOwner,
-            ...mutantOwner
-          ]);
+      const baycAddressString = `tokens=${NFT_CONTRACTS[1]}%3A${collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)}&`
+      const bakcAddressString = `tokens=${NFT_CONTRACTS[3]}%3A${collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)}&`
+      const othersideAddressString = `tokens=${OTHERSIDE}%3A${collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)}&`
+
+      const mutantAddressString = mutantTokenIds?.map((i, idx) => (
+        `tokens=${NFT_CONTRACTS[2]}%3A${String(i)}`
+      )) || []
+
+      const combined = (baycAddressString + bakcAddressString + othersideAddressString + mutantAddressString).replace(",", "&")
+
+      const options = { method: 'GET', headers: { accept: '*/*', 'x-api-key': process.env.RESERVOIR_API_KEY || "" } };
+
+      const res = await fetch(`
+        https://api.reservoir.tools/tokens/v5?${combined}&sortBy=floorAskPrice&limit=20&includeTopBid=false&includeAttributes=false&includeQuantity=false&includeDynamicPricing=false&normalizeRoyalties=false`
+        , options
+      )
+
+      const data = await res.json()
+
+      const tokens = data.tokens;
+
+      let dataToDisplay = [];
+
+      for (let i = 0; i < tokens.length; i++) {
+        if (tokens[i].token.collection.id.toLowerCase() === NFT_CONTRACTS[1].toLowerCase()) {//bayc
+          dataToDisplay.push({
+            urlCallCount: 0,
+            isError: false,
+            loaded: false,
+            owner: tokens[i].token.owner,
+            type: "ape",
+            url: tokens[i].token.image,
+            tokenId: tokens[i].token.tokenId,
+            listingPrice: tokens[i].market.floorAsk.price === null ?
+              "Unlisted"
+              :
+              `${tokens[i].market.floorAsk.price.amount.decimal.toString()} ${tokens[i].market.floorAsk.price.currency.symbol}`
+          })
         }
-      } else {
-        setOwners([
-          kennelOwner,
-          othersideOwner,
-          boredApeOwner
-        ]);
+        if (tokens[i].token.collection.id.toLowerCase() === NFT_CONTRACTS[2].toLowerCase()) {//mayc
+          dataToDisplay.push({
+            urlCallCount: 0,
+            isError: false,
+            loaded: false,
+            owner: tokens[i].token.owner,
+            type: "mutant",
+            url: tokens[i].token.image,
+            tokenId: tokens[i].token.tokenId,
+            listingPrice: tokens[i].market.floorAsk.price === null ?
+              "Unlisted"
+              :
+              `${tokens[i].market.floorAsk.price.amount.decimal.toString()} ${tokens[i].market.floorAsk.price.currency.symbol}`
+          })
+        }
+        if (tokens[i].token.collection.id.toLowerCase() === NFT_CONTRACTS[3].toLowerCase()) {//bakc
+          dataToDisplay.push({
+            urlCallCount: 0,
+            isError: false,
+            loaded: false,
+            owner: tokens[i].token.owner,
+            type: "kennel",
+            url: tokens[i].token.image,
+            tokenId: tokens[i].token.tokenId,
+            listingPrice: tokens[i].market.floorAsk.price === null ?
+              "Unlisted"
+              :
+              `${tokens[i].market.floorAsk.price.amount.decimal.toString()} ${tokens[i].market.floorAsk.price.currency.symbol}`
+          })
+        }
+        if (collectionId !== "0" && tokens[i].token.collection.id.toLowerCase() === OTHERSIDE.toLowerCase()) {//otherside
+          dataToDisplay.push({
+            urlCallCount: 0,
+            isError: false,
+            loaded: false,
+            owner: tokens[i].token.owner,
+            type: "otherside",
+            url: tokens[i].token.image,
+            tokenId: tokens[i].token.tokenId,
+            listingPrice: tokens[i].market.floorAsk.price === null ?
+              "Unlisted"
+              :
+              `${tokens[i].market.floorAsk.price.amount.decimal.toString()} ${tokens[i].market.floorAsk.price.currency.symbol}`
+          })
+        }
       }
+      setMetadata(dataToDisplay)
+      setIsLoading(false);
     } catch (error) {
       console.log(error)
+      setIsError(true)
+      setIsLoading(false);
     }
-  }
-
-
-  React.useEffect(() => {
-    if(mutantTokenIds && tokenId && !owners) {
-      getOwners();
-    }
-  }, [owners, tokenId, mutantTokenIds])
-
-  const getImageLinks = async (i: number, id: string) => {
-    const res = await fetch(tokenURIs[i](String(id)))
-    const data = await res.json();
-    let imageURL = data.image;
-    if(imageURL.includes("ipfs://")){
-      if(i === 0){
-        imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
-      }
-      if(i === 1){
-        imageURL = imageURL.replace("ipfs://", "https://ipfs.io/ipfs/")
-      }
-      if(i === 3){
-        imageURL = imageURL.replace("ipfs://", "https://gateway.ipfs.io/ipfs/")
-      }
-    }
-    return {
-      url: imageURL,
-      tokenId: String(id),
-      type: linkReference[i]
-    };
-  }
-
-  const getImages = async () => {
-    let images = [];
-    if(mutantTokenIds && mutantTokenIds?.length > 0){
-      const mutantGetters = mutantTokenIds.map(i => getImageLinks(0, String(i)))
-      if(collectionId === '0'){
-        images = await Promise.all([
-          getImageLinks(1, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-          getImageLinks(3, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-          ...mutantGetters,
-        ])
-      }else{
-        images = await Promise.all([
-          getImageLinks(1, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-          getImageLinks(2, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-          getImageLinks(3, collectionId === "0" ? getTokenIdFromMutantId(String(tokenId)) : String(tokenId)),
-          ...mutantGetters,
-        ])
-      }
-    } else {
-      images = await Promise.all([
-        getImageLinks(1, String(tokenId)),
-        getImageLinks(2, String(tokenId)),
-        getImageLinks(3, String(tokenId)),
-      ])
-    }    
-    setImageLinks(images)
   }
 
   React.useEffect(() => {
-    if(mutantTokenIds && tokenId && !imageLinks) {
-      getImages();
+    if (mutantTokenIds && tokenId && !metadata) {
+      getMetadata();
     }
-  }, [imageLinks, tokenId, mutantTokenIds])
-
-  const combineData = () => {
-    let combinedData = [];
-    if(owners){
-      for (let i = 0; i < owners?.length; i++) {
-        combinedData.push({
-          ...owners[i], 
-          loaded: false,
-          isError: false,
-          ipfsCallCount: 0,
-          ...(imageLinks?.find((itmInner) => itmInner.tokenId === owners[i].tokenId && itmInner.type === owners[i].type))}
-         )
-      }
-    }
-    setMetadata(combinedData)
-    setIsLoading(false);
-  }
-
-  React.useEffect(() => {
-    if(tokenId && imageLinks && owners && !metadata) {
-      combineData();
-    }
-  }, [tokenId, imageLinks, owners, metadata])
+  }, [metadata, tokenId, mutantTokenIds])
 
   const handleImageLoaded = (type: string, tokenId: string) => {
     setMetadata(prevMetadata => {
       const newMetadata = prevMetadata?.map((i) => {
-        if(i.type === type && i.tokenId === tokenId){
-          return {...i, loaded: true}
+        if (i.type === type && i.tokenId === tokenId) {
+          return { ...i, loaded: true }
         }
-          return i
+        return i
       })
       return newMetadata
     })
@@ -464,16 +305,15 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
   const handleImageError = (type: string, tokenId: string) => {
     setMetadata(prevMetadata => {
       const newMetadata = prevMetadata?.map((i) => {
-        if(i.ipfsCallCount < maxIPFSCallAmount){
-          if(i.type === type && i.tokenId === tokenId){
-            //if ipfs timeout occurs, will retry to get image 5 times before displaying error message
+        if (i.urlCallCount < maxUrlCallAmount) {
+          if (i.type === type && i.tokenId === tokenId) {
             const timestamp = (new Date()).getTime();
-            return {...i, url: `${i.url}?_=${timestamp}`, ipfsCallCount: i.ipfsCallCount + 1}
+            return { ...i, url: `${i.url}?_=${timestamp}`, urlCallCount: i.urlCallCount + 1 }
           }
           return i;
         } else {
-          if(i.type === type && i.tokenId === tokenId){
-            return {...i, loaded: true, isError: true}
+          if (i.type === type && i.tokenId === tokenId) {
+            return { ...i, loaded: true, isError: true }
           }
           return i
         }
@@ -482,7 +322,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
     })
   }
 
-  return(
+  return (
     <div
       style={{
         backgroundColor: theme?.backgroundColor ? theme?.backgroundColor : "white",
@@ -498,18 +338,18 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       }}
       className='ape-stat-bar-display'
     >
-      <div style={{paddingBottom: "1rem"}}>
+      <div style={{ paddingBottom: "1rem" }}>
         Matched Items
         ({metadata && !isLoading ? String(metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length) : "-"})
       </div>
 
       {isLoading && (
-        <div 
+        <div
           style={{
             padding: ".5rem 0"
           }}
         >
-          <div 
+          <div
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -523,18 +363,18 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
                 alignItems: "center"
               }}
             >
-              <div 
+              <div
                 className="loading-state"
                 style={{
                   borderRadius: "10px",
                   width: "50px",
                   height: "50px",
-                  marginRight: theme?.imageGap ? theme?.imageGap :  ".5rem", 
+                  marginRight: theme?.imageGap ? theme?.imageGap : ".5rem",
                   backgroundColor: theme?.skeletonBackgroundColor ? theme?.skeletonBackgroundColor : "#DDDBDD"
                 }}
               >
               </div>
-              <div 
+              <div
                 className="loading-state"
                 style={{
                   borderRadius: "5px",
@@ -545,7 +385,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
                 }}
               />
             </div>
-            <div 
+            <div
               className="loading-state"
               style={{
                 borderRadius: "5px",
@@ -560,12 +400,12 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       )}
 
       {isError && (
-        <div 
+        <div
           style={{
             padding: ".5rem 0"
           }}
         >
-          <div 
+          <div
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -582,11 +422,11 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
               {tokenTypeIcon['mutant']}
               <div
                 style={{
-                  paddingLeft: theme?.imageGap ? theme?.imageGap :  ".5rem",
+                  paddingLeft: theme?.imageGap ? theme?.imageGap : ".5rem",
                   animation: 'fadeIn .75s'
                 }}
               >
-                {collectionId === '0' && Number(tokenId) < 10000 ? "Matched Items unavailable for Mutants 0 - 9,999" : "No Items Found"}
+                {collectionId === '0' && Number(tokenId) < 10000 ? "Matched Items unavailable for MAYC 0 - 9,999" : "No Items Found"}
               </div>
             </div>
             <div
@@ -602,69 +442,106 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
 
       {metadata && !isLoading && (
         metadata
-        .filter(i => i.owner !== undefined)
-        .filter(i => collectionType[i.type] !== collectionId)
-        .map((i, idx) => (
-          <div key={idx}>
-            <div 
-              style={{
-                padding: ".5rem 0"
-              }}
-            >
-              <div 
+          .filter(i => i.owner !== undefined)
+          .filter(i => collectionType[i.type] !== collectionId)
+          .map((i, idx) => (
+            <div key={idx}>
+              <div
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "1rem"
+                  padding: ".5rem 0"
                 }}
               >
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center"
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: "1rem"
                   }}
                 >
-                  <div>
-                    <img 
-                      src={i.url}
-                      alt='token image'
-                      width={"50px"}
-                      height={"50px"}
-                      style={{
-                        borderRadius: "10px",
-                        display: i.loaded && !i.isError ? "flex" : "none",
-                        animation: 'fadeIn .75s'
-                      }}
-                      loading='eager'
-                      onLoad={() => handleImageLoaded(i.type, i.tokenId)}
-                      onError={() => handleImageError(i.type, i.tokenId)}
-                    />
-                    {!i.loaded ? 
-                      <div className="loading-state">
-                        {tokenTypeIcon[i.type]}
-                      </div>
-                      :
-                      null
-                    }
-                    {i.isError ? 
-                      <>
-                        {tokenTypeIcon[i.type]}
-                        <div style={{fontSize: "7px", maxWidth: "50px", textAlign: "center"}}>IPFS Timeout</div>
-                      </>
-                      :
-                      null
-                    }
-                  </div>
                   <div
                     style={{
-                      paddingLeft: theme?.imageGap ? theme?.imageGap :  ".5rem",
-                      animation: 'fadeIn .75s'
+                      display: "flex",
+                      alignItems: "center"
                     }}
                   >
+                    <div>
+                      <img
+                        src={i.url}
+                        alt='token image'
+                        width={"50px"}
+                        height={"50px"}
+                        style={{
+                          borderRadius: "10px",
+                          display: i.loaded && !i.isError ? "flex" : "none",
+                          animation: 'fadeIn .75s'
+                        }}
+                        loading='eager'
+                        onLoad={() => handleImageLoaded(i.type, i.tokenId)}
+                        onError={() => handleImageError(i.type, i.tokenId)}
+                      />
+                      {!i.loaded ?
+                        <div className="loading-state">
+                          {tokenTypeIcon[i.type]}
+                        </div>
+                        :
+                        null
+                      }
+                      {i.isError ?
+                        <>
+                          {tokenTypeIcon[i.type]}
+                          <div style={{ fontSize: "7px", maxWidth: "50px", textAlign: "center" }}>IPFS Timeout</div>
+                        </>
+                        :
+                        null
+                      }
+                    </div>
+                    <div
+                      style={{
+                        paddingLeft: theme?.imageGap ? theme?.imageGap : ".5rem",
+                        animation: 'fadeIn .75s',
+                      }}
+                    >
+                      <a
+                        href={`${marketplaceByType[i.type]}${i.tokenId}`}
+                        target="_blank"
+                        rel="noopenner noreferrer"
+                        style={{
+                          cursor: "pointer",
+                          color: "inherit",
+                          textDecoration: "none"
+                        }}
+                      >
+                        {`${tokenTypeString[i.type]} #${i.tokenId}`}
+                      </a>
+                      <div
+                        style={{
+                          color: theme?.listingPriceColor ? theme?.listingPriceColor : "rgb(140, 149, 156)",
+                          fontSize: theme?.listingPriceFontSize ? theme?.listingPriceFontSize : "80%",
+                          fontWeight: theme?.listingPriceFontWeight ? theme?.listingPriceFontWeight : "300",
+                          paddingTop: theme?.listingPricePaddingTop ? theme?.listingPricePaddingTop : ".25rem",
+                        }}
+                      >
+                        {i.listingPrice}
+                      </div>
+                    </div>
+                  </div>
+                  <span style={{
+                    fontSize: theme?.fontSize ? theme?.fontSize : "80%",
+                    animation: 'fadeIn .75s',
+                    textAlign: "right"
+                  }}
+                  >
+                    <span
+                      style={{
+                        color: theme?.ownedByColor ? theme?.ownedByColor : "rgb(140, 149, 156)"
+                      }}
+                    >
+                      Owned by {" "}
+                    </span>
                     <a
-                      href={`${marketplaceByType[i.type]}${i.tokenId}`} 
-                      target="_blank" 
+                      href={`https://etherscan.io/address/${i.owner}`}
+                      target="_blank"
                       rel="noopenner noreferrer"
                       style={{
                         cursor: "pointer",
@@ -672,51 +549,24 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
                         textDecoration: "none"
                       }}
                     >
-                      {`${tokenTypeString[i.type]} #${i.tokenId}`}
+                      <span>
+                        {getEllipsisTxt(i.owner)}
+                      </span>
                     </a>
-                  </div>
-                </div>
-                <span style={{
-                  fontSize: theme?.fontSize ? theme?.fontSize : "80%",
-                  animation: 'fadeIn .75s',
-                  textAlign: "right"
-                }}
-                >
-                  <span
-                    style={{
-                      color: theme?.ownedByColor ? theme?.ownedByColor : "rgb(140, 149, 156)"
-                    }}
-                  >
-                    Owned by {" "}
                   </span>
-                  <a 
-                    href={`https://etherscan.io/address/${i.owner}`} 
-                    target="_blank" 
-                    rel="noopenner noreferrer"
-                    style={{
-                      cursor: "pointer",
-                      color: "inherit",
-                      textDecoration: "none"
-                    }}
-                  >
-                    <span>
-                      {getEllipsisTxt(i.owner)}
-                    </span>
-                  </a>
-                </span>
+                </div>
               </div>
+              {idx + 1 !== metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length && (
+                <div
+                  style={{
+                    height: "1px",
+                    background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)",
+                    margin: theme?.itemGap ? `${theme?.itemGap} 0` : ".5rem 0"
+                  }}
+                />
+              )}
             </div>
-            {idx + 1 !== metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length && (
-              <div 
-                style={{
-                  height: "1px", 
-                  background: theme?.dividerColor ? theme?.dividerColor : "rgb(55, 59, 66)",
-                  margin: theme?.itemGap ? `${theme?.itemGap} 0` : ".5rem 0"
-                }} 
-              />
-            )}
-          </div>
-        ))
+          ))
       )}
 
       {metadata && metadata.filter(i => i.owner !== undefined).filter(i => collectionType[i.type] !== collectionId).length === 0 && !isLoading && (

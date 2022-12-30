@@ -86,12 +86,7 @@ _Enter `tokenId` as empty string if `poolId` is 0._
 import { useStakedAmount } from "ape-stats-goerli";
 
 export default function Page() {
-  const { stakedAmount } = useStakedAmount(
-    true,
-    "0",
-    "",
-    "0x9B6cEd7dc2F47Ae3e30E6162193BD9CE78643A63"
-  );
+  const { stakedAmount } = useStakedAmount(true, "0", "", "0x9B6cEd7dc2F47Ae3e30E6162193BD9CE78643A63");
 
   return <div>{stakedAmount}</div>;
 }
@@ -142,13 +137,7 @@ The code snippet below will render the accompanying MAYC, BAKC, and BAYC tokens 
 import { MatchedItems } from "ape-stats-goerli";
 
 export default function Page() {
-  return (
-    <MatchedItems
-      baseUrl="bayc.snag-render.com"
-      tokenId={"1290"}
-      collectionId="1"
-    />
-  );
+  return <MatchedItems baseUrl="bayc.snag-render.com" tokenId={"1290"} collectionId="1" />;
 }
 ```
 
@@ -158,13 +147,7 @@ The code snippet below will render the accompanying OTHR, BAKC, and BAYC tokens 
 import { MatchedItems } from "ape-stats-goerli";
 
 export default function Page() {
-  return (
-    <MatchedItems
-      baseUrl="bayc.snag-render.com"
-      tokenId={"30006"}
-      collectionId="0"
-    />
-  );
+  return <MatchedItems baseUrl="bayc.snag-render.com" tokenId={"30006"} collectionId="0" />;
 }
 ```
 
@@ -201,6 +184,10 @@ If any of the default styling given to certain parts of the component is undesir
 | `dividerColor`            | Color of dividing line.                      | `rgb(55, 59, 66)`    |
 | `skeletonBackgroundColor` | Color of the loading placeholder.            | `#DDDBDD`            |
 | `ownedByColor`            | Font color of the text that says "Owned by". | `rgb(140, 149, 156)` |
+| `listingPriceColor`       | Font color of the listing price.             | `rgb(140, 149, 156)` |
+| `listingPriceFontSize`    | Font size of the listing price.              | `80%`                |
+| `listingPriceFontWeight`  | Font weight of the listing price.            | `300`                |
+| `listingPricePaddingTop`  | Top padding of the listing price.            | `.25rem`             |
 
 ```javascript
 import { ApeStatBar } from 'ape-stats-goerli'
