@@ -56,8 +56,23 @@ stories.add("ApeMatchedItems", () => {
   return (
     <div>
       <ApeMatchedItems
-        tokenId="3264"
-        baseUrl="bayc.snag-render.com"
+        tokenId="4429"
+        baseUrl="apecoinmarketplace.com"
+        collectionId={"0"}
+        theme={{
+          maxWidth: "800px",
+          margin: "0 auto 2rem auto",
+          borderRadius: "10px",
+          backgroundColor: "#000000",
+          border: "1px solid #45494D",
+          color: "white",
+          padding: "1.5rem",
+          imageGap: "1rem",
+        }}
+      />
+      <ApeMatchedItems
+        tokenId="6441"
+        baseUrl="apecoinmarketplace.com"
         collectionId={"2"}
         theme={{
           maxWidth: "800px",
@@ -71,9 +86,9 @@ stories.add("ApeMatchedItems", () => {
         }}
       />
       <ApeMatchedItems
-        tokenId="9999"
-        baseUrl="bayc.snag-render.com"
-        collectionId={"0"}
+        tokenId="4271"
+        baseUrl="apecoinmarketplace.com"
+        collectionId={"2"}
         theme={{
           maxWidth: "800px",
           margin: "0 auto 2rem auto",
@@ -85,24 +100,9 @@ stories.add("ApeMatchedItems", () => {
           imageGap: "1rem",
         }}
       />
-      <ApeMatchedItems
-        tokenId="30001"
-        baseUrl="bayc.snag-render.com"
-        collectionId={"0"}
-        theme={{
-          maxWidth: "800px",
-          margin: "0 auto 2rem auto",
-          borderRadius: "10px",
-          backgroundColor: "#000000",
-          border: "1px solid #45494D",
-          color: "white",
-          padding: "1.5rem",
-          imageGap: "1rem",
-        }}
-      />
-      <ApeMatchedItems
-        tokenId="0"
-        baseUrl="bayc.snag-render.com"
+      {/* <ApeMatchedItems
+        tokenId="5840"
+        baseUrl="apecoinmarketplace.com"
         collectionId={"1"}
         theme={{
           maxWidth: "800px",
@@ -114,7 +114,7 @@ stories.add("ApeMatchedItems", () => {
           padding: "1.5rem",
           imageGap: "1rem",
         }}
-      />
+      /> */}
     </div>
   );
 });

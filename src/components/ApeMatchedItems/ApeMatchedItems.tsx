@@ -203,13 +203,15 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
       const options = { method: 'GET', headers: { accept: '*/*', 'x-api-key': process.env.RESERVOIR_API_KEY || "" } };
 
       const res = await fetch(`
-        https://api.reservoir.tools/tokens/v5?${combined}&sortBy=floorAskPrice&limit=20&includeTopBid=false&includeAttributes=false&includeQuantity=false&includeDynamicPricing=false&normalizeRoyalties=false`
+        https://api.reservoir.tools/tokens/v5?${combined}&sortBy=floorAskPrice&limit=20&includeTopBid=false&includeAttributes=false&includeQuantity=false&includeDynamicPricing=false&normalizeRoyalties=true`
         , options
       )
 
       const data = await res.json()
 
       const tokens = data.tokens;
+
+      console.log(tokens)
 
       let dataToDisplay = [];
 
@@ -509,7 +511,7 @@ const ApeMatchedItems = ({ theme, tokenId, baseUrl, collectionId }: ApeMatchedIt
                         style={{
                           cursor: "pointer",
                           color: "inherit",
-                          textDecoration: "none"
+                          // textDecoration: "none"
                         }}
                       >
                         {`${tokenTypeString[i.type]} #${i.tokenId}`}
